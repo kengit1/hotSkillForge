@@ -59,7 +59,7 @@ public class signup_panel extends JFrame{
         else{
             if(Usertype.equals("Student")) {
                 User newUser = new Student(
-                        "1234",
+                        "1234", //l7ad m3ml generate ID
                         Username,
                         Email,
                         securityUtils.hashPassword(password1)
