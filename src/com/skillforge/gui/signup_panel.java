@@ -7,12 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.file.Files;
 import com.skillforge.model.*;
 import com.skillforge.Utilities.*;
 
-public class signup_panel extends JFrame{
+public class signup_panel extends JFrame {
     private JPanel container3;
     private JComboBox comboBox1;
     private JTextField Emailfield;
@@ -20,11 +19,13 @@ public class signup_panel extends JFrame{
     private JPasswordField passwordField2;
     private JButton signupButton;
     private JTextField namefield;
+    private JButton backButton;
 
     public signup_panel() {
         setTitle("Signup");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
+        setLocationRelativeTo(null);
         setContentPane(container3);
 
         signupButton.addActionListener(new ActionListener() {
@@ -33,9 +34,16 @@ public class signup_panel extends JFrame{
                 Signup_operations();
             }
         });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                goback();
+                dispose();
+            }
+        });
     }
 
-    private void Signup_operations(){
+    private void Signup_operations() {
         String Usertype = (String) comboBox1.getSelectedItem();
         String Username = namefield.getText().trim();
         String Email = Emailfield.getText().trim();
@@ -45,19 +53,19 @@ public class signup_panel extends JFrame{
         if (Usertype.isEmpty() || Username.isEmpty() || Email.isEmpty() || password1.isEmpty() || password2.isEmpty())
             JOptionPane.showMessageDialog(this, "All fields must be filled!", "Input Error", JOptionPane.ERROR_MESSAGE);
 
-        else if(!ValidName(Username))
+        else if (!ValidName(Username))
             JOptionPane.showMessageDialog(this, "Invalid Username", "Input Error", JOptionPane.ERROR_MESSAGE);
 
-        else if(!ValidEmail(Email))
+        else if (!ValidEmail(Email))
             JOptionPane.showMessageDialog(this, "Invalid Email Format", "Input Error", JOptionPane.ERROR_MESSAGE);
 
-        else if(!ValidPassword(password1))
+        else if (!ValidPassword(password1))
             JOptionPane.showMessageDialog(this, "Invalid Password", "Input Error", JOptionPane.ERROR_MESSAGE);
 
-        else if(!password1.equals(password2))
+        else if (!password1.equals(password2))
             JOptionPane.showMessageDialog(this, "Passwords don't match", "Input Error", JOptionPane.ERROR_MESSAGE);
-        else{
-            if(Usertype.equals("Student")) {
+        else {
+            if (Usertype.equals("Student")) {
                 User newUser = new Student(
                         "1234", //l7ad m3ml generate ID
                         Username,
@@ -65,8 +73,7 @@ public class signup_panel extends JFrame{
                         securityUtils.hashPassword(password1)
                 );
                 saveUserToJSON(newUser);
-            }
-            else if(Usertype.equals("Instructor")){
+            } else if (Usertype.equals("Instructor")) {
                 User newUser = new Instructor(
                         "5678",
                         Username,
@@ -77,8 +84,9 @@ public class signup_panel extends JFrame{
             }
         }
     }
-    private boolean ValidName(String name){
-        if(name.matches("[a-zA-Z]+") && name.length() <= 15) return true;
+
+    private boolean ValidName(String name) {
+        if (name.matches("[a-zA-Z]+") && name.length() <= 15) return true;
         else return false;
     }
 
@@ -139,16 +147,27 @@ public class signup_panel extends JFrame{
             passwordField1.setText("");
             passwordField2.setText("");
             Emailfield.setText("");
+            openloginpanel();
+            dispose();
 
         } catch (Exception e) {
             System.out.println("ERROR: Failed to read or write users.json");
         }
     }
 
-    public static void main(String[] args) {
+    private void goback() {
+
         SwingUtilities.invokeLater(() -> {
-            signup_panel panel = new signup_panel();
-            panel.setVisible(true);
+            first_panel back = new first_panel();
+            back.setVisible(true);
+        });
+    }
+
+    private void openloginpanel() {
+
+        SwingUtilities.invokeLater(() -> {
+            login_panel login = new login_panel();
+            login.setVisible(true);
         });
     }
 }

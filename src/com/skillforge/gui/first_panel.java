@@ -13,19 +13,37 @@ public class first_panel extends JFrame {
         setTitle("FirstPanel");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 300);
+        setLocationRelativeTo(null);
         setContentPane(container1);
 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                openloginpanel();
+                dispose();
             }
         });
         signupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                opensignuppanel();
+                dispose();
             }
+        });
+    }
+
+    private void openloginpanel() {
+
+        SwingUtilities.invokeLater(() -> {
+            login_panel login = new login_panel();
+            login.setVisible(true);
+        });
+    }
+    private void opensignuppanel() {
+
+        SwingUtilities.invokeLater(() -> {
+            signup_panel signup = new signup_panel();
+            signup.setVisible(true);
         });
     }
 
