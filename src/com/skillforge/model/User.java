@@ -1,8 +1,5 @@
 package com.skillforge.model;
-
-import com.skillforge.db.DatabaseEntity;
-
-public abstract class User implements DatabaseEntity {
+public abstract class User {
     private String userID ;
     private String userName ;
     private String role ;
@@ -29,9 +26,14 @@ public abstract class User implements DatabaseEntity {
         return passwordHash;
     }
 
-    @Override
-    public String getID()
-    {
-        return getUserID() ;
-    }
+    protected void setUserID(String userID) { this.userID = userID; }
+
+    protected void setUserName(String userName) { this.userName = userName; }
+
+    protected void setRole(String role) { this.role = role; }
+
+    protected void setEmail(String email) { this.email = email; }
+
+    protected void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
 }
