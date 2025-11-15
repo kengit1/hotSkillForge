@@ -1,0 +1,16 @@
+[
+    {
+        "role": "Student",
+        "userID": "1234",
+        "email": "mohamed@gmail.com",
+        "passwordHash": "12efaf4d5ec0ebeffb44e66c4c93d73866ae2a2c34cde0b593d85e51798859b9",
+        "username": "mohamed"
+    },
+    {
+        "role": "Instructor",
+        "userID": "5678",
+        "email": "omar@gmail.com",
+        "passwordHash": "bbfe576074197632267880b0429c54f248b3a444736a0343065f0d2ddd433f90",
+        "username": "omar"
+    }
+]

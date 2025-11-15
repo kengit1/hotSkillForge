@@ -26,4 +26,14 @@ public abstract class User {
         return passwordHash;
     }
 
+    protected void setUserID(String userID) { this.userID = userID; }
+
+    protected void setUserName(String userName) { this.userName = userName; }
+
+    protected void setRole(String role) { this.role = role; }
+
+    protected void setEmail(String email) { this.email = email; }
+
+    protected void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
 }
