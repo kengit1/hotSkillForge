@@ -31,10 +31,10 @@ public abstract class jsonDatabaseManager<T extends DatabaseEntity> {
         this.gson = customGson;
     }
 
-    // --- (The third important part: Lazy Loading) ---
-    // 1. Became private (so no one calls it from outside except our own methods)
-    // 2. It will only run once
-    private void loadData() // (Your code was public)
+    // Lazy Loading
+    //  Became private (so no one calls it from outside except our own methods)
+    // It will only run once
+    private void loadData()
     {
         // If data is not null, it means it's already loaded. Exit immediately.
         if (this.dataList != null) {

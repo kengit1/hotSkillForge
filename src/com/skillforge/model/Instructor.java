@@ -13,4 +13,9 @@ public class Instructor extends User{
         setEmail(email);
         setPasswordHash(passwordHash);
     }
+
+    @Override
+    public String getID() {
+        return getUserID();
+    }
 }

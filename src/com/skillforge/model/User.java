@@ -1,5 +1,8 @@
 package com.skillforge.model;
-public abstract class User {
+
+import com.skillforge.db.DatabaseEntity;
+
+public abstract class User implements DatabaseEntity {
     private String userID ;
     private String userName ;
     private String role ;
