@@ -4,7 +4,7 @@ import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
 import com.skillforge.model.Instructor;
-import com.skillforge.service.CourseService;
+import com.skillforge.model.CourseService;
 
 import javax.swing.*;
 import java.awt.*;

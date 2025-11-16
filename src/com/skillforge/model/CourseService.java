@@ -1,5 +1,4 @@
-package com.skillforge.service;
-
+package com.skillforge.model;
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
