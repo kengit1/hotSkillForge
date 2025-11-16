@@ -1,6 +1,7 @@
 package com.skillforge.gui;
 
 import com.skillforge.Utilities.securityUtils;
+import com.skillforge.model.Student;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
 public class login_panel extends JFrame{
     private JPanel container2;
