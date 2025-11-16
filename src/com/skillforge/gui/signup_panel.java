@@ -1,16 +1,17 @@
 package com.skillforge.gui;
-
+import com.skillforge.model.*;
+import com.skillforge.Utilities.securityUtils;
+import com.skillforge.model.Instructor;
+import com.skillforge.model.User;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.nio.file.Files;
-import com.skillforge.model.*;
-import com.skillforge.Utilities.*;
-
+import com.skillforge.model.Student;
 public class signup_panel extends JFrame {
     private JPanel container3;
     private JComboBox comboBox1;
@@ -66,8 +67,9 @@ public class signup_panel extends JFrame {
             JOptionPane.showMessageDialog(this, "Passwords don't match", "Input Error", JOptionPane.ERROR_MESSAGE);
         else {
             if (Usertype.equals("Student")) {
-                User newUser = new Student(
-                        "1234", //l7ad m3ml generate ID
+                User newUser;
+                newUser = new Student(
+                        "1234",
                         Username,
                         Email,
                         securityUtils.hashPassword(password1)
@@ -133,7 +135,7 @@ public class signup_panel extends JFrame {
             }
             JSONObject userObj = new JSONObject();
             userObj.put("userID", user.getUserID());
-            userObj.put("username", user.getUserName());
+            userObj.put("userName", user.getUserName());
             userObj.put("role", user.getRole());
             userObj.put("email", user.getEmail());
             userObj.put("passwordHash", user.getPasswordHash());

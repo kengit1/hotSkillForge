@@ -2,12 +2,15 @@ package com.skillforge.model;
 
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
+import com.skillforge.model.Course;
+import com.skillforge.model.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Student extends User{
+public  class Student extends User {
     private List<String> enrolledCourses; // List of courseIds
     private Map<String, List<String>> progress;
     public Student(String userID, String userName, String email, String passwordHash) {
@@ -17,6 +20,7 @@ public class Student extends User{
         setEmail(email);
         setPasswordHash(passwordHash);
         this.progress = new HashMap<>();
+        this.enrolledCourses=new ArrayList<>();
 
 
     }
@@ -43,11 +47,19 @@ public class Student extends User{
     }
     public List<String> getEnrolledCourses() { return enrolledCourses; }
     public Map<String, List<String>> getProgress() { return progress; }
+    public List readfromfile()
+    {
+        List<User> data=new ArrayList<>();
+        UserDatabaseManager ud=new UserDatabaseManager("C:\\Users\\Omarh\\OneDrive\\Desktop\\hotSkillForge\\users.json");
 
+        if(ud==null)
+        {
+            System.out.println("didnt read shit");
+        }
+        data=ud.getDataList();
 
-
-
-
+        return  data;
+    }
 
     @Override
     public String getID() {

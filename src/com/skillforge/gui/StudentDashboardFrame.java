@@ -86,9 +86,7 @@ public static class StudentDashboardFrame extends JFrame {
         availableCoursesPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         List<Course> allCourses = cd.getDataList();
-        List<Course> availableCourses = allCourses.stream()
-                .filter(course -> !currentStudent.getEnrolledCourses().contains(course.getID()))
-                .collect(Collectors.toList());
+        List<Course> availableCourses = allCourses.stream().filter(course -> !currentStudent.getEnrolledCourses().contains(course.getCourseId())).collect(Collectors.toList());
 
         if (availableCourses.isEmpty()) {
             availableCoursesPanel.add(new JLabel("No new courses available. Check back later!"));
