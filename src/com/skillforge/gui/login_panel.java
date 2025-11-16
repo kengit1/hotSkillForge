@@ -1,14 +1,14 @@
 package com.skillforge.gui;
 
+import com.skillforge.Utilities.securityUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import java.io.File;
 import java.nio.file.Files;
-
-import com.skillforge.Utilities.*;
 
 public class login_panel extends JFrame{
     private JPanel container2;
