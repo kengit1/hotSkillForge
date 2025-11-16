@@ -1,4 +1,4 @@
-package com.skillforge.ui;
+package com.skillforge.gui;
 
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;

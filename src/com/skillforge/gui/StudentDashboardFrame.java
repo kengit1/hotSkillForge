@@ -1,19 +1,14 @@
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
-import com.skillforge.model.Lesson;
 import com.skillforge.model.Student;
-import com.skillforge.model.User;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.google.gson.internal.bind.TypeAdapters.UUID;
-
-public static class StudentDashboardFrame extends JFrame {
+public static class studentDashboardFrame extends JFrame {
     private Student currentStudent;
     private UserDatabaseManager ud;
     private CoursesDatabaseManager cd;
@@ -23,7 +18,7 @@ public static class StudentDashboardFrame extends JFrame {
     private JPanel enrolledCoursesPanel;
 
 
-    public StudentDashboardFrame(Student student, UserDatabaseManager userManager, CoursesDatabaseManager courseManager) {
+    public studentDashboardFrame(Student student, UserDatabaseManager userManager, CoursesDatabaseManager courseManager) {
         this.currentStudent = student;
         this.ud = userManager;
         this.cd = courseManager;
@@ -183,7 +178,7 @@ public static class StudentDashboardFrame extends JFrame {
 
     private void showLessonView(Course course) {
 
-        new com.skillforge.ui.LessonFrame(this, currentStudent, course, ud).setVisible(true);
+        new com.skillforge.gui.LessonFrame(this, currentStudent, course, ud).setVisible(true);
         loadDataViews();
     }
 }
@@ -192,7 +187,7 @@ public static void main(String[] args) {
    Student k=new Student("9666","OMar Hesham","omarhesham@kokowawa.com","omarhesham1bas");
    UserDatabaseManager ds=new UserDatabaseManager("users.json");
    CoursesDatabaseManager cf=new CoursesDatabaseManager();
-  StudentDashboardFrame s=new StudentDashboardFrame(k,ds,cf);
+  studentDashboardFrame s=new studentDashboardFrame(k,ds,cf);
 
 
 

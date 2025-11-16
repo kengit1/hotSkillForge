@@ -61,7 +61,7 @@ public  class Student extends User {
     public List readfromfile()
     {
         List<User> data=new ArrayList<>();
-        UserDatabaseManager ud=new UserDatabaseManager("C:\\Users\\Omarh\\OneDrive\\Desktop\\hotSkillForge\\users.json");
+        UserDatabaseManager ud=new UserDatabaseManager("users.json");
 
         if(ud==null)
         {

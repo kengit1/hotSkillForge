@@ -1,16 +1,23 @@
 [
-  {
-    "role": "Student",
-    "userID": "1234",
-    "email": "mohamed@gmail.com",
-    "passwordHash": "12efaf4d5ec0ebeffb44e66c4c93d73866ae2a2c34cde0b593d85e51798859b9",
-    "userName": "mohamed"
-  },
-  {
-    "role": "Instructor",
-    "userID": "5678",
-    "email": "omar@gmail.com",
-    "passwordHash": "bbfe576074197632267880b0429c54f248b3a444736a0343065f0d2ddd433f90",
-    "userName": "omar"
-  }
+    {
+        "role": "Student",
+        "userName": "mohamed",
+        "userID": "1234",
+        "email": "mohamed@gmail.com",
+        "passwordHash": "12efaf4d5ec0ebeffb44e66c4c93d73866ae2a2c34cde0b593d85e51798859b9"
+    },
+    {
+        "role": "Instructor",
+        "userName": "omar",
+        "userID": "5678",
+        "email": "omar@gmail.com",
+        "passwordHash": "bbfe576074197632267880b0429c54f248b3a444736a0343065f0d2ddd433f90"
+    },
+    {
+        "role": "Student",
+        "userName": "Hamada",
+        "userID": "1234",
+        "email": "hamada@gmail.com",
+        "passwordHash": "514cd7cea6f2fd5e6ce49c17d2a802af764179020f327cbc00507326937341ef"
+    }
 ]
