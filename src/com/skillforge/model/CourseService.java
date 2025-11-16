@@ -60,7 +60,7 @@ public class CourseService {
         String newLessonId = courseId + "-L" + (lessonCount + 1);
 
         Lesson newLesson = new Lesson(newLessonId, title, content);
-
+//------
         course.addLesson(newLesson);
 
         boolean success = courseDB.update(course);

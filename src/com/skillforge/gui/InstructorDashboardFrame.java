@@ -191,7 +191,7 @@ public class InstructorDashboardFrame extends JFrame {
             JOptionPane.showMessageDialog(this, scrollPane, "Current Lessons in " + course.getTitle(), JOptionPane.INFORMATION_MESSAGE);
         }
     }
-
+//....
     private void handleViewStudents() {
         Course course = getSelectedCourse();
         if (course == null) {
