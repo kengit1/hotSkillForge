@@ -46,8 +46,8 @@ public class LessonFrame extends JDialog {
         lessonList.setFont(new Font("SansSerif", Font.PLAIN, 14));
 
         // 2. Set custom cell renderer to show completion status
-        List<String> completedLessons = student.getProgress().get(course.getID());
-        lessonList.setCellRenderer(new LessonCellRenderer(completedLessons != null ? completedLessons : new ArrayList<>()));
+        //List<String> completedLessons = student.getProgress().get(course.getID());
+        //lessonList.setCellRenderer(new LessonCellRenderer(completedLessons != null ? completedLessons : new ArrayList<>()));
 
         // 3. Add selection listener to display content when a lesson is clicked
         lessonList.addListSelectionListener(e -> {
@@ -105,12 +105,12 @@ public class LessonFrame extends JDialog {
         contentArea.setCaretPosition(0); // Scroll to top
 
         // Determine if the current lesson is completed
-        boolean isCompleted = student.getProgress().getOrDefault(course.getID(), List.of()).contains(lesson.getID());
+        //boolean isCompleted = student.getProgress().getOrDefault(course.getID(), List.of()).contains(lesson.getID());
 
         // Update button text and color
-        completeButton.setText(isCompleted ? "✅ Mark as Incomplete" : "Mark as Completed");
-        completeButton.setBackground(isCompleted ? new Color(255, 140, 0) : new Color(60, 179, 113)); // Orange vs Green
-        completeButton.setEnabled(true);
+        //completeButton.setText(isCompleted ? "✅ Mark as Incomplete" : "Mark as Completed");
+        //completeButton.setBackground(isCompleted ? new Color(255, 140, 0) : new Color(60, 179, 113)); // Orange vs Green
+        //completeButton.setEnabled(true);
     }
 
     /**
@@ -121,9 +121,9 @@ public class LessonFrame extends JDialog {
         if (lesson == null) return;
 
         // 1. Update Student model's progress map
-        boolean updated = student.toggleLessonCompleted(course.getID(), lesson.getID());
+       // boolean updated = student.toggleLessonCompleted(course.getID(), lesson.getID());
 
-        if (updated) {
+        /*if (updated) {
             // 2. Persist the change to the User database
             userDBManager.update(student);
 
@@ -135,7 +135,7 @@ public class LessonFrame extends JDialog {
 
         } else {
             JOptionPane.showMessageDialog(this, "Error: Course progress tracking not initialized.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+        }*/
     }
 
     /**
