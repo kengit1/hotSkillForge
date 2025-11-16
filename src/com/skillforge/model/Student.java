@@ -24,6 +24,17 @@ public  class Student extends User {
 
 
     }
+    public Student(String userId, String role, String username, String email, String passwordHash,
+                   List<String> enrolledCourses, Map<String, List<String>> progress) {
+        setUserID(userId);
+        setUserName(username);
+        setRole(role);
+        setEmail(email);
+        setPasswordHash(passwordHash);
+        this.enrolledCourses = (enrolledCourses != null) ? enrolledCourses : new ArrayList<>();
+        this.progress = (progress != null) ? progress : new HashMap<>();
+    }
+
     public void enrollCourse(Course course) {
         this.enrolledCourses.add(course.getID());
         UserDatabaseManager db = null;
