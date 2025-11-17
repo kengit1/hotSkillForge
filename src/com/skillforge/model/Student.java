@@ -60,4 +60,10 @@ public  class Student extends User {
     public String getID() {
         return getUserID();
     }
+
+    @Override
+    public String toString() {
+        return this.getID()+" "+this.getUserName()+" "+
+                this.getRole()+" "+this.getEmail()+" ";
+    }
 }

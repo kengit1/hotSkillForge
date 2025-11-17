@@ -19,7 +19,7 @@ public class UserDeserializer implements JsonDeserializer<User> {
         String role = jsonObject.get("role").getAsString();
 
         // as the type f role , Gson will transform the jsonObject into the specified one
-        return switch (role.toLowerCase() /*unifeing the logic */) { //enhanced switch 🤩
+        return switch (role.toLowerCase() /*unifying the logic */) { //enhanced switch 🤩
             case "student" ->
                     context.deserialize(jsonObject, Student.class);
             case "instructor" ->

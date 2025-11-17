@@ -2,6 +2,8 @@ package com.skillforge.db;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.skillforge.model.Instructor;
+import com.skillforge.model.Student;
 import com.skillforge.model.User;
 
 public class UserDatabaseManager extends jsonDatabaseManager<User> {
@@ -21,4 +23,15 @@ public class UserDatabaseManager extends jsonDatabaseManager<User> {
 
         return builder.create();
     }
+
+    public static void main(String[] args)
+    {
+        UserDatabaseManager db = new UserDatabaseManager("users.json");
+        Student st = new Student("1","2","3","4");
+        Instructor is = new Instructor("5","6","7","8");
+        db.add(is) ;
+        db.saveData();
+        System.out.println(db.getDataList());
+    }
+
 }

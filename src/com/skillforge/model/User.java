@@ -38,5 +38,7 @@ public abstract class User implements DatabaseEntity {
     protected void setEmail(String email) { this.email = email; }
 
     protected void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    @Override
+    public abstract String toString() ;
 
 }

@@ -9,17 +9,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public abstract class jsonDatabaseManager<T extends DatabaseEntity> {
-    private String filePath ;
+    private final String filePath ;
     private Class<T> entityClass ;
 
     // This is "our flag". We'll start with null to know if we've loaded the data or not.
     private ArrayList<T> dataList = null;
-    private Gson gson = new Gson() ;
+    private Gson gson ;
 
     jsonDatabaseManager(String filePath , Class<T> entityClass)
     {
         this.filePath = filePath ;
         this.entityClass = entityClass ;
+        this.gson = new Gson() ;
         // We'll remove the loading from here to do "lazy loading".
         // this.dataList = new ArrayList<>() ;
     }

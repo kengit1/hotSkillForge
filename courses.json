@@ -1,7 +1,13 @@
 [
   {
-    "courseID": "C01",
+    "courseId": "C01",
     "title": "AI",
     "description": "Hello to ai"
+  }
+  ,
+  {
+    "courseId": "C02",
+    "title": "Intro to ML",
+    "description": "Say Hi to our new dependency"
   }
 ]
