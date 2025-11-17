@@ -79,4 +79,9 @@ public class Course implements DatabaseEntity {
     public boolean removeStudentId(String studentId) {
         return this.students.remove(studentId);
     }
+
+    @Override
+    public String toString() {
+        return this.getID()+" "+this.getTitle()+" "+this.getDescription();
+    }
 }

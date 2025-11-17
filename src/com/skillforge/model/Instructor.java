@@ -49,4 +49,10 @@ public class Instructor extends User {
     public String getID() {
         return getUserID();
     }
+
+    @Override
+    public String toString() {
+        return this.getID()+" "+this.getUserName()+" "+
+                this.getRole()+" "+this.getEmail();
+    }
 }

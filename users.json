@@ -1,36 +1,32 @@
 [
   {
-    "ID": "user-inst-401",
+    "userID": "1234",
+    "userName": "mohamed",
+    "role": "Student",
+    "email": "mohamed@gmail.com",
+    "passwordHash": "12efaf4d5ec0ebeffb44e66c4c93d73866ae2a2c34cde0b593d85e51798859b9"
+  },
+  {
+    "userID": "5678",
+    "userName": "omar",
     "role": "Instructor",
-    "username": "prof_alison",
-    "email": "alison@skillforge.edu",
-    "passwordHash": "123",
-    "createdCourses": [
-      "COURSE-101",
-      "COURSE-205"
-    ]
+    "email": "omar@gmail.com",
+    "passwordHash": "bbfe576074197632267880b0429c54f248b3a444736a0343065f0d2ddd433f90"
   },
   {
-    "ID": "user-std-102",
+    "enrolledCourses": [],
+    "userID": "1",
+    "userName": "2",
     "role": "Student",
-    "username": "sara_jones",
-    "email": "sara@student.edu",
-    "passwordHash": "123",
-    "enrolledCourses": [
-      "COURSE-101"
-    ],
-    "progress": {
-      "COURSE-101": [
-        "L-101-01"
-      ]
-    }
+    "email": "3",
+    "passwordHash": "4"
   },
   {
-    "ID": "user-std-103",
-    "role": "Student",
-    "username": "david_kim",
-    "email": "david@student.edu",
-    "passwordHash": "123",
-    "enrolledCourses": []
+    "createdCourses": [],
+    "userID": "5",
+    "userName": "6",
+    "role": "Instructor",
+    "email": "7",
+    "passwordHash": "8"
   }
 ]
