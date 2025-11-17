@@ -13,7 +13,6 @@ import java.util.Map;
 public  class Student extends User {
     private List<String> enrolledCourses;
     private Map<String, List<String>> progress;
-    // List of courseIds
     public Student(String userId, String role, String username, String email, String passwordHash,List<String> enrolledCourses,Map<String,List<String>> progress) {
         setUserID(userId);
         setUserName(username);

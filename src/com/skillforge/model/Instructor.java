@@ -15,11 +15,6 @@ public class Instructor extends User {
         setPasswordHash(passwordHash);
         this.createdCourses = new ArrayList<>();
     }
-
-    /**
-     * Constructor used by Gson when loading from the database.
-     * FIXED: Uses protected setters.
-     */
     public Instructor(String userId, String role, String username, String email, String passwordHash,
                       List<String> createdCourses) {
         setUserID(userId);
@@ -29,8 +24,6 @@ public class Instructor extends User {
         setPasswordHash(passwordHash);
         this.createdCourses = (createdCourses != null) ? createdCourses : new ArrayList<>();
     }
-
-    // --- Getters and helper methods ---
 
     public List<String> getCreatedCourses() {
         return createdCourses;
@@ -42,9 +35,7 @@ public class Instructor extends User {
         }
     }
 
-    /**
-     * FIXED: Added the required getID() method from the DatabaseEntity interface.
-     */
+
     @Override
     public String getID() {
         return getUserID();

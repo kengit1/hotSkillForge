@@ -28,5 +28,20 @@
     "role": "Instructor",
     "email": "7",
     "passwordHash": "8"
+  },
+  {
+    "enrolledCourses": [
+      "C01"
+    ],
+    "progress": {
+      "C01": [
+        "L001"
+      ]
+    },
+    "userID": "9666",
+    "userName": "OmarHesham",
+    "role": "Student",
+    "email": "omar@gmail.com",
+    "passwordHash": "1234"
   }
 ]

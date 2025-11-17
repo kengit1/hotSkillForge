@@ -27,9 +27,8 @@ public class UserDatabaseManager extends jsonDatabaseManager<User> {
     public static void main(String[] args)
     {
         UserDatabaseManager db = new UserDatabaseManager("users.json");
-        Student st = new Student("1","2","3","4");
-        Instructor is = new Instructor("5","6","7","8");
-        db.add(is) ;
+        Student st = new Student("9666","Student","Omar","omarhesham2006@outlook.com","12345",null,null);
+        db.add(st) ;
         db.saveData();
         System.out.println(db.getDataList());
     }
