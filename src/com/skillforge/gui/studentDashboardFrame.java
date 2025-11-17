@@ -1,5 +1,8 @@
+package com.skillforge.gui;
+
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
+import com.skillforge.gui.LessonFrame;
 import com.skillforge.model.Course;
 import com.skillforge.model.Student;
 
@@ -8,21 +11,20 @@ import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public static class studentDashboardFrame extends JFrame {
-    private Student currentStudent;
+
+public  class studentDashboardFrame extends JFrame {
+       Student student;
     private UserDatabaseManager ud;
     private CoursesDatabaseManager cd;
-
     private JTabbedPane tabbedPane;
     private JPanel availableCoursesPanel;
     private JPanel enrolledCoursesPanel;
 
 
-    public studentDashboardFrame(Student student, UserDatabaseManager userManager, CoursesDatabaseManager courseManager) {
-        this.currentStudent = student;
+    public studentDashboardFrame(Student students, UserDatabaseManager userManager, CoursesDatabaseManager courseManager) {
+        this.student = students;
         this.ud = userManager;
         this.cd = courseManager;
-
         setTitle("Skill Forge - Student Dashboard: " + student.getUserName());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(850, 650);
@@ -55,7 +57,7 @@ public static class studentDashboardFrame extends JFrame {
         panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         panel.setBackground(new Color(240, 248, 255)); // Alice Blue background
 
-        JLabel welcomeLabel = new JLabel("Welcome, " + currentStudent.getUserName() + "!");
+        JLabel welcomeLabel = new JLabel("Welcome, " + student.getUserName() + "!");
         welcomeLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
         panel.add(welcomeLabel, BorderLayout.WEST);
 
@@ -76,12 +78,13 @@ public static class studentDashboardFrame extends JFrame {
         panel.add(logoutButton, BorderLayout.EAST);
         return panel;
     }
+
     private void loadAvailableCourses() {
         availableCoursesPanel.removeAll();
         availableCoursesPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         List<Course> allCourses = cd.getDataList();
-        List<Course> availableCourses = allCourses.stream().filter(course -> !currentStudent.getEnrolledCourses().contains(course.getCourseId())).collect(Collectors.toList());
+        List<Course> availableCourses = allCourses.stream().filter(course -> !student.getEnrolledCourses().contains(course.getCourseId())).collect(Collectors.toList());
 
         if (availableCourses.isEmpty()) {
             availableCoursesPanel.add(new JLabel("No new courses available. Check back later!"));
@@ -99,10 +102,10 @@ public static class studentDashboardFrame extends JFrame {
         enrolledCoursesPanel.removeAll();
         enrolledCoursesPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        if (currentStudent.getEnrolledCourses()==null) {
+        if (student.getEnrolledCourses() == null) {
             enrolledCoursesPanel.add(new JLabel("You are not currently enrolled in any courses. Enroll now to start learning!"));
         } else {
-            for (String courseId : currentStudent.getEnrolledCourses()) {
+            for (String courseId : student.getEnrolledCourses()) {
                 Course course = cd.findById(courseId);
                 if (course != null) {
                     enrolledCoursesPanel.add(createCoursePanel(course, true));
@@ -160,39 +163,33 @@ public static class studentDashboardFrame extends JFrame {
     }
 
 
-
     private void enrollCourse(Course course) {
-        if (currentStudent.getEnrolledCourses().contains(course.getID())) {
+        if (student.getEnrolledCourses().contains(course.getID())) {
             JOptionPane.showMessageDialog(this, "You are already enrolled in this course!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-
-        currentStudent.enrollCourse(course);
-        course.addStudentId(currentStudent.getUserID());
-        ud.update(currentStudent);
+        this.student.getEnrolledCourses().add(course.getCourseId());
+        course.addStudent(this.student.getUserID());
+        ud.update(student);
         cd.update(course);
         JOptionPane.showMessageDialog(this, "Successfully enrolled in " + course.getTitle() + "! Data saved at logout.", "Enrollment Success", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("enrolled");
+        cd.saveData();
+        ud.saveData();
         loadDataViews();
         tabbedPane.setSelectedIndex(1);
     }
 
     private void showLessonView(Course course) {
 
-        new com.skillforge.gui.LessonFrame(this, currentStudent, course, ud).setVisible(true);
+        LessonFrame l=new LessonFrame(this, student, course, ud);l.setVisible(true);
         loadDataViews();
     }
 }
 
-public static void main(String[] args) {
-   Student k=new Student("9666","OMar Hesham","omarhesham@kokowawa.com","omarhesham1bas");
-   UserDatabaseManager ds=new UserDatabaseManager("users.json");
-   CoursesDatabaseManager cf=new CoursesDatabaseManager();
-  studentDashboardFrame s=new studentDashboardFrame(k,ds,cf);
 
 
 
-
-}
 
 
 

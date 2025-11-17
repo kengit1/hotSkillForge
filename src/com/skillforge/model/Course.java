@@ -12,7 +12,6 @@ public class Course implements DatabaseEntity {
     private List<Lesson> lessons;
     private List<String> students;
 
-    // Constructor
     public Course(String courseId, String title, String description, String instructorId) {
         this.courseId = courseId;
         this.title = title;
@@ -71,7 +70,7 @@ public class Course implements DatabaseEntity {
         return false;
     }
 
-    public void addStudentId(String studentId) {
+    public void addStudent(String studentId) {
         if (!this.students.contains(studentId)) {
             this.students.add(studentId);
         }

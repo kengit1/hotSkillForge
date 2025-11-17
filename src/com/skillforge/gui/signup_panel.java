@@ -68,12 +68,7 @@ public class signup_panel extends JFrame {
         else {
             if (Usertype.equals("Student")) {
                 User newUser;
-                newUser = new Student(
-                        "1234",
-                        Username,
-                        Email,
-                        securityUtils.hashPassword(password1)
-                );
+                newUser = new Student("1234","Student", Username, Email, securityUtils.hashPassword(password1),null,null);
                 saveUserToJSON(newUser);
             } else if (Usertype.equals("Instructor")) {
                 User newUser = new Instructor(

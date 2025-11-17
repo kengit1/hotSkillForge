@@ -1,7 +1,51 @@
 [
   {
-    "courseID": "C01",
-    "title": "AI",
-    "description": "Hello to ai"
+    "courseId": "COURSE-101",
+    "title": "Introduction to Programming Basics",
+    "description": "A beginner-friendly course covering fundamental programming concepts, syntax, and basic logic structures using a common language (e.g., Python or Java).",
+    "instructorId": "user-inst-401",
+    "lessons": [
+      {
+        "lessonId": "L-101-01",
+        "title": "Setup and Variables",
+        "content": "Install your environment and learn how to declare and assign values to different variable types.",
+        "resources": [
+          "Link to IDE Installation Guide",
+          "Official Language Documentation: Data Types"
+        ]
+      },
+      {
+        "lessonId": "L-101-02",
+        "title": "Conditional Logic and Loops",
+        "content": "Explore the use of 'if-else' statements and 'for/while' loops to control the flow of execution in your programs.",
+        "resources": []
+      }
+    ],
+    "studentIds": [
+      "user-std-102"
+    ]
+  },
+  {
+    "courseId": "COURSE-205",
+    "title": "Advanced Responsive Web Design",
+    "description": "Dive deep into modern CSS, Flexbox, Grid, and media queries to build complex, adaptive, and performant web layouts.",
+    "instructorId": "user-inst-401",
+    "lessons": [
+      {
+        "lessonId": "L-205-01",
+        "title": "CSS Grid Mastery",
+        "content": "Understanding the core concepts of CSS Grid for two-dimensional layouts and template definition.",
+        "resources": [
+          "MDN Web Docs on CSS Grid"
+        ]
+      },
+      {
+        "lessonId": "L-205-02",
+        "title": "Performance Optimization",
+        "content": "Techniques for reducing load times, optimizing images, and improving Core Web Vitals for better user experience.",
+        "resources": []
+      }
+    ],
+    "studentIds": []
   }
 ]
