@@ -1,10 +1,11 @@
 [
   {
+    "createdCourses": [],
     "userID": "1234",
-    "userName": "mohamed",
-    "role": "Student",
-    "email": "mohamed@gmail.com",
-    "passwordHash": "12efaf4d5ec0ebeffb44e66c4c93d73866ae2a2c34cde0b593d85e51798859b9"
+    "userName": "Kokoko",
+    "role": "Instructor",
+    "email": "@gmail",
+    "passwordHash": "23456"
   },
   {
     "userID": "5678",

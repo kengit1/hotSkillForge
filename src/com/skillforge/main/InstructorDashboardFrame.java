@@ -1,0 +1,255 @@
+package com.skillforge.main;
+
+import javax.swing.*;
+import java.awt.*;import java.awt.event.*;
+import com.skillforge.db.CoursesDatabaseManager;
+import com.skillforge.db.UserDatabaseManager;
+import com.skillforge.model.Course;
+import com.skillforge.model.Lesson;
+import com.skillforge.model.Instructor;
+import java.util.List;
+
+public class InstructorDashboardFrame extends JFrame {
+
+    private final Instructor instructor;
+    private final CoursesDatabaseManager courseDB;
+    private final UserDatabaseManager userDB;
+
+    private JList<String> coursesList;
+    private JList<String> lessonsList;
+
+    public InstructorDashboardFrame(Instructor instructor,CoursesDatabaseManager courseDB, UserDatabaseManager userDB) {
+
+        this.instructor = instructor;
+        this.courseDB = courseDB;
+        this.userDB = userDB;
+
+        setTitle("Instructor Dashboard - " + instructor.getUserName());
+        setSize(1000, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        initUI();
+        loadCreatedCourses();
+
+        setVisible(true);
+    }
+
+    private void initUI() {
+        JPanel mainPanel = new JPanel(new GridLayout(1, 2));
+
+        // LEFT PANEL — COURSES
+        JPanel coursesPanel = new JPanel(new BorderLayout());
+        coursesPanel.add(new JLabel("Your Courses", SwingConstants.CENTER), BorderLayout.NORTH);
+
+        coursesList = new JList<>();
+        coursesList.addListSelectionListener(e -> loadLessons());
+        coursesPanel.add(new JScrollPane(coursesList), BorderLayout.CENTER);
+
+        JPanel courseButtons = new JPanel(new GridLayout(1, 3));
+
+        JButton createCourseBtn = new JButton("Create Course");
+        createCourseBtn.addActionListener(e -> createCourse());
+
+        JButton editCourseBtn = new JButton("Edit Course");
+        editCourseBtn.addActionListener(e -> editCourse());
+
+        JButton deleteCourseBtn = new JButton("Delete Course");
+        deleteCourseBtn.addActionListener(e -> deleteCourse());
+
+        courseButtons.add(createCourseBtn);
+        courseButtons.add(editCourseBtn);
+        courseButtons.add(deleteCourseBtn);
+
+        coursesPanel.add(courseButtons, BorderLayout.SOUTH);
+
+        // RIGHT PANEL — LESSONS
+        JPanel lessonsPanel = new JPanel(new BorderLayout());
+        lessonsPanel.add(new JLabel("Lessons"), BorderLayout.NORTH);
+
+        lessonsList = new JList<>();
+        lessonsPanel.add(new JScrollPane(lessonsList), BorderLayout.CENTER);
+
+        JPanel lessonButtons = new JPanel(new GridLayout(1, 3));
+
+        JButton addLessonBtn = new JButton("Add Lesson");
+        addLessonBtn.addActionListener(e -> addLesson());
+
+        JButton editLessonBtn = new JButton("Edit Lesson");
+        editLessonBtn.addActionListener(e -> editLesson());
+
+        JButton deleteLessonBtn = new JButton("Delete Lesson");
+        deleteLessonBtn.addActionListener(e -> deleteLesson());
+
+        lessonButtons.add(addLessonBtn);
+        lessonButtons.add(editLessonBtn);
+        lessonButtons.add(deleteLessonBtn);
+
+        lessonsPanel.add(lessonButtons, BorderLayout.SOUTH);
+
+        mainPanel.add(coursesPanel);
+        mainPanel.add(lessonsPanel);
+
+        add(mainPanel, BorderLayout.CENTER);
+    }
+
+    // ------------------------ LOAD DATA ------------------------
+
+    private void loadCreatedCourses() {
+        List<String> created = instructor.getCreatedCourses();
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (String courseId : created) {
+            Course c = courseDB.findById(courseId);
+            if (c != null)
+                model.addElement(c.getCourseId() + " - " + c.getTitle());
+        }
+
+        coursesList.setModel(model);
+    }
+
+    private void loadLessons() {
+        String selected = coursesList.getSelectedValue();
+        if (selected == null) return;
+
+        String courseId = selected.split(" - ")[0];
+        Course course = courseDB.findById(courseId);
+        if (course == null) return;
+
+        DefaultListModel<String> model = new DefaultListModel<>();
+        for (Lesson lesson : course.getLessons()) {
+            model.addElement(lesson.getLessonId() + " - " + lesson.getTitle());
+        }
+
+        lessonsList.setModel(model);
+    }
+
+    // ------------------------ COURSE ACTIONS ------------------------
+
+    private void createCourse() {
+        String title = JOptionPane.showInputDialog("Enter Course Title:");
+        if (title == null || title.isEmpty()) return;
+
+        String desc = JOptionPane.showInputDialog("Enter Description:");
+        if (desc == null || desc.isEmpty()) return;
+
+        String id = "C-" + System.currentTimeMillis();
+
+        Course newCourse = new Course(id, title, desc, instructor.getID());
+        courseDB.add(newCourse);
+        courseDB.saveData();
+
+        instructor.addCreatedCourse(id);
+        userDB.update(instructor);
+        userDB.saveData();
+
+        loadCreatedCourses();
+        JOptionPane.showMessageDialog(this, "Course created!");
+    }
+
+    private void editCourse() {
+        String selected = coursesList.getSelectedValue();
+        if (selected == null) return;
+
+        String courseId = selected.split(" - ")[0];
+        Course course = courseDB.findById(courseId);
+
+        String newTitle = JOptionPane.showInputDialog("New Title:", course.getTitle());
+        if (newTitle == null || newTitle.isEmpty()) return;
+
+        String newDesc = JOptionPane.showInputDialog("New Description:", course.getDescription());
+        if (newDesc == null || newDesc.isEmpty()) return;
+
+        course.setTitle(newTitle);
+        course.setDescription(newDesc);
+
+        courseDB.update(course);
+        courseDB.saveData();
+
+        loadCreatedCourses();
+        JOptionPane.showMessageDialog(this, "Course updated!");
+    }
+
+    private void deleteCourse() {
+        String selected = coursesList.getSelectedValue();
+        if (selected == null) return;
+
+        String courseId = selected.split(" - ")[0];
+
+        instructor.getCreatedCourses().remove(courseId);
+        userDB.update(instructor);
+        userDB.saveData();
+
+        courseDB.delete(courseId);
+        courseDB.saveData();
+
+        loadCreatedCourses();
+        JOptionPane.showMessageDialog(this, "Course deleted.");
+    }
+
+    // ------------------------ LESSON ACTIONS ------------------------
+
+    private void addLesson() {
+        String selected = coursesList.getSelectedValue();
+        if (selected == null) return;
+
+        String courseId = selected.split(" - ")[0];
+        Course course = courseDB.findById(courseId);
+
+        String title = JOptionPane.showInputDialog("Lesson Title:");
+        String content = JOptionPane.showInputDialog("Lesson Content:");
+
+        if (title == null || content == null) return;
+
+        String lessonId = courseId + "-L" + (course.getLessons().size() + 1);
+        Lesson lesson = new Lesson(lessonId, title, content);
+
+        course.addLesson(lesson);
+        courseDB.update(course);
+        courseDB.saveData();
+
+        loadLessons();
+        JOptionPane.showMessageDialog(this, "Lesson added!");
+    }
+
+    private void editLesson() {
+        String courseSel = coursesList.getSelectedValue();
+        String lessonSel = lessonsList.getSelectedValue();
+
+        if (courseSel == null || lessonSel == null) return;
+
+        String courseId = courseSel.split(" - ")[0];
+        String lessonId = lessonSel.split(" - ")[0];
+
+        Course course = courseDB.findById(courseId);
+        Lesson lesson = course.getLesson(lessonId);
+
+        String newTitle = JOptionPane.showInputDialog("New Lesson Title:", lesson.getTitle());
+        String newContent = JOptionPane.showInputDialog("New Lesson Content:", lesson.getContent());
+
+        if (newTitle == null || newContent == null) return;
+
+        lesson.setTitle(newTitle);
+        lesson.setContent(newContent);
+
+        courseDB.update(course);
+        courseDB.saveData();
+
+        loadLessons();
+        JOptionPane.showMessageDialog(this, "Lesson updated!");
+    }
+
+    private void deleteLesson() {
+        String courseSel = coursesList.getSelectedValue();
+        String lessonSel = lessonsList.getSelectedValue();
+
+        if (courseSel == null || lessonSel == null) return;
+
+        String courseId = courseSel.split(" - ")[0];
+        String lessonId = lessonSel.split(" - ")[0];
+
+        Course course = courseDB.findById(courseId);
+        course.deleteLesson(lessonId);
+
+        courseDB.update(course);
+    }}

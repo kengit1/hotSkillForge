@@ -1,5 +1,4 @@
 package com.skillforge.main;
-
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
@@ -85,36 +84,32 @@ public class StudentDashboard extends JFrame {
                 model.addElement(c.getCourseId() + " - " + c.getTitle());
             }
         }
-
         availableCoursesList.setModel(model);
     }
 
     private void loadEnrolledCourses() {
 
         DefaultListModel<String> model = new DefaultListModel<>();
-
         for (String courseId : student.getEnrolledCourses()) {
             Course c = courseDB.findById(courseId);
             if (c != null)
-                model.addElement(c.getCourseId() + " - " + c.getTitle());
+                model.addElement(c.getCourseId()+ " - " +c.getTitle());
         }
-
         enrolledCoursesList.setModel(model);
     }
-
     private void loadLessons() {
 
-        String selected = enrolledCoursesList.getSelectedValue();
-        if (selected == null) return;
+        String selected=enrolledCoursesList.getSelectedValue();
+        if (selected==null) return;
 
-        String courseId = selected.split(" - ")[0];
-        Course course = courseDB.findById(courseId);
+        String courseId=selected.split(" - ")[0];
+        Course course=courseDB.findById(courseId);
 
         if (course == null) return;
 
         DefaultListModel<String> model = new DefaultListModel<>();
         for (Lesson lesson : course.getLessons()) {
-            model.addElement(lesson.getLessonId() + " - " + lesson.getTitle());
+            model.addElement(lesson.getLessonId()+ " - "+lesson.getTitle());
         }
 
         lessonsList.setModel(model);
@@ -126,47 +121,33 @@ public class StudentDashboard extends JFrame {
             JOptionPane.showMessageDialog(this, "Please select a course to enroll.");
             return;
         }
-
         String courseId = selected.split(" - ")[0];
         Course course = courseDB.findById(courseId);
-
         if (course == null) return;
-
-
         course.addStudent(student.getUserID());
         courseDB.update(course);
         courseDB.saveData();
-
         student.getEnrolledCourses().add(courseId);
         userDB.update(student);
         userDB.saveData();
-
         JOptionPane.showMessageDialog(this, "Enrolled successfully!");
-
         loadAvailableCourses();
         loadEnrolledCourses();
     }
-
     private void markLessonCompleted() {
-
         String courseEntry = enrolledCoursesList.getSelectedValue();
         String lessonEntry = lessonsList.getSelectedValue();
-
         if (courseEntry == null || lessonEntry == null) {
             JOptionPane.showMessageDialog(this, "Select a course and a lesson.");
             return;
         }
-
         String courseId = courseEntry.split(" - ")[0];
         String lessonId = lessonEntry.split(" - ")[0];
-
         student.getProgress()
                 .computeIfAbsent(courseId, k -> new java.util.ArrayList<>())
                 .add(lessonId);
-
         userDB.update(student);
         userDB.saveData();
-
         JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
     }
 }
