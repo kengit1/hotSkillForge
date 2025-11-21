@@ -24,13 +24,13 @@ public class UserDatabaseManager extends jsonDatabaseManager<User> {
         return builder.create();
     }
 
-    public static void main(String[] args)
+    /*public static void main(String[] args)
     {
         UserDatabaseManager db = new UserDatabaseManager("users.json");
         Student st = new Student("9666","Student","Omar","omarhesham2006@outlook.com","12345",null,null);
         db.add(st) ;
         db.saveData();
         System.out.println(db.getDataList());
-    }
+    }*/
 
 }

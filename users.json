@@ -1,40 +1,25 @@
 [
   {
-    "createdCourses": [],
+    "createdCourses": [
+      "C-1763752296126",
+      "C-1763760320942"
+    ],
     "userID": "1234",
-    "userName": "Kokoko",
+    "userName": "hamada111",
     "role": "Instructor",
-    "email": "@gmail",
-    "passwordHash": "23456"
-  },
-  {
-    "userID": "5678",
-    "userName": "omar",
-    "role": "Instructor",
-    "email": "omar@gmail.com",
-    "passwordHash": "bbfe576074197632267880b0429c54f248b3a444736a0343065f0d2ddd433f90"
-  },
-  {
-    "enrolledCourses": [],
-    "userID": "1",
-    "userName": "2",
-    "role": "Student",
-    "email": "3",
-    "passwordHash": "4"
-  },
-  {
-    "createdCourses": [],
-    "userID": "5",
-    "userName": "6",
-    "role": "Instructor",
-    "email": "7",
-    "passwordHash": "8"
+    "email": "hamada@gmail",
+    "passwordHash": "cd49dafb6196647f273cff14723c04fa8b92a6665826c777ecd2be56aa502fd5"
   },
   {
     "enrolledCourses": [
-      "C01"
+      "C01",
+      "C-1763752296126",
+      "C-1763760320942"
     ],
     "progress": {
+      "C-1763752296126": [
+        "C-1763752296126-L1"
+      ],
       "C01": [
         "L001"
       ]
@@ -43,6 +28,15 @@
     "userName": "OmarHesham",
     "role": "Student",
     "email": "omar@gmail.com",
-    "passwordHash": "1234"
+    "passwordHash": "20ef919015d88e84b14d1fa98ca9bf061e860988e9e8694d05232ba1c7acf736"
+  },
+  {
+    "enrolledCourses": [],
+    "progress": {},
+    "userID": "8888",
+    "userName": "mahmoud",
+    "role": "Student",
+    "email": "mahmoud@gmail.com",
+    "passwordHash": "5c88c4535bd741a67d2b8bb3aee0becc34632cc3e63399f7bac46640ae76c712"
   }
 ]

@@ -1,5 +1,6 @@
 package com.skillforge.db;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,7 +21,7 @@ public abstract class jsonDatabaseManager<T extends DatabaseEntity> {
     {
         this.filePath = filePath ;
         this.entityClass = entityClass ;
-        this.gson = new Gson() ;
+        this.gson = this.gson = new GsonBuilder().setPrettyPrinting().create(); //3adlt fl line da 3shan my7otsh kolo fi nafs el line.
         // We'll remove the loading from here to do "lazy loading".
         // this.dataList = new ArrayList<>() ;
     }
@@ -29,7 +30,9 @@ public abstract class jsonDatabaseManager<T extends DatabaseEntity> {
     {
         this.filePath = filePath ;
         this.entityClass = entityClass ;
-        this.gson = customGson;
+        this.gson = (customGson != null) //3adlt fl line da 3shan my7otsh kolo fi nafs el line.
+                ? customGson
+                : new GsonBuilder().setPrettyPrinting().create();
     }
 
     // Lazy Loading

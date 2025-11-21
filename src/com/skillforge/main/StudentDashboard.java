@@ -29,6 +29,7 @@ public class StudentDashboard extends JFrame {
         setSize(900, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         initUI();
         loadAvailableCourses();
@@ -38,7 +39,19 @@ public class StudentDashboard extends JFrame {
     }
 
     private void initUI() {
-
+        JPanel topPanel = new JPanel(new BorderLayout());
+        JButton logoutBtn = new JButton("Logout");
+        logoutBtn.setBackground(Color.RED);
+        logoutBtn.setForeground(Color.WHITE);
+        logoutBtn.setFocusPainted(false);
+        logoutBtn.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> {
+                logoutform logout = new logoutform(student,this);
+                logout.setVisible(true);
+            });
+        });
+        topPanel.add(logoutBtn, BorderLayout.EAST);
+        add(topPanel, BorderLayout.NORTH);
         JPanel mainPanel = new JPanel(new GridLayout(1, 3));
         JPanel availablePanel = new JPanel(new BorderLayout());
         availablePanel.add(new JLabel("Available Courses"), BorderLayout.NORTH);

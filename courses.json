@@ -1,1 +1,92 @@
-[{"courseId":"C01","title":"Introduction to Java","description":"Learn the fundamentals of Java programming, including syntax, variables, loops, and OOP basics.","instructorId":"U1001","lessons":[{"lessonId":"L001","title":"Java Basics","content":"Introduction to Java, setting up JDK, running your first program.","resources":[]},{"lessonId":"L002","title":"Variables and Data Types","content":"Understanding primitive types, variables, and memory allocation.","resources":[]}],"students":["U2001","U2002","9666"]},{"courseId":"C02","title":"Object-Oriented Programming","description":"Deep dive into OOP concepts such as inheritance, abstraction, polymorphism, and encapsulation.","instructorId":"U1002","lessons":[{"lessonId":"L101","title":"Classes and Objects","content":"Understanding classes, objects, attributes, methods, and constructors.","resources":[]},{"lessonId":"L102","title":"Inheritance","content":"How classes can inherit behaviors and attributes from parent classes.","resources":[]}],"students":["U2001","U2002"]},{"courseId":"C03","title":"Data Structures in Java","description":"Learn stacks, queues, linked lists, trees, and how to implement them in Java.","instructorId":"U1003","lessons":[{"lessonId":"L201","title":"Arrays and Lists","content":"Understanding arrays, ArrayList, and basic operations.","resources":[]},{"lessonId":"L202","title":"Stacks and Queues","content":"Implementing stacks and queues using arrays and linked lists.","resources":[]}],"students":["U2001","U2002"]}]
+[
+  {
+    "courseId": "C01",
+    "title": "Introduction to Java",
+    "description": "Learn the fundamentals of Java programming, including syntax, variables, loops, and OOP basics.",
+    "instructorId": "U1001",
+    "lessons": [
+      {
+        "lessonId": "L001",
+        "title": "Java Basics",
+        "content": "Introduction to Java, setting up JDK, running your first program.",
+        "resources": []
+      },
+      {
+        "lessonId": "L002",
+        "title": "Variables and Data Types",
+        "content": "Understanding primitive types, variables, and memory allocation.",
+        "resources": []
+      }
+    ],
+    "students": [
+      "U2001",
+      "U2002",
+      "9666"
+    ]
+  },
+  {
+    "courseId": "C02",
+    "title": "Object-Oriented Programming",
+    "description": "Deep dive into OOP concepts such as inheritance, abstraction, polymorphism, and encapsulation.",
+    "instructorId": "U1002",
+    "lessons": [
+      {
+        "lessonId": "L101",
+        "title": "Classes and Objects",
+        "content": "Understanding classes, objects, attributes, methods, and constructors.",
+        "resources": []
+      },
+      {
+        "lessonId": "L102",
+        "title": "Inheritance",
+        "content": "How classes can inherit behaviors and attributes from parent classes.",
+        "resources": []
+      }
+    ],
+    "students": [
+      "U2001",
+      "U2002"
+    ]
+  },
+  {
+    "courseId": "C03",
+    "title": "Data Structures in Java",
+    "description": "Learn stacks, queues, linked lists, trees, and how to implement them in Java.",
+    "instructorId": "U1003",
+    "lessons": [
+      {
+        "lessonId": "L201",
+        "title": "Arrays and Lists",
+        "content": "Understanding arrays, ArrayList, and basic operations.",
+        "resources": []
+      },
+      {
+        "lessonId": "L202",
+        "title": "Stacks and Queues",
+        "content": "Implementing stacks and queues using arrays and linked lists.",
+        "resources": []
+      }
+    ],
+    "students": [
+      "U2001",
+      "U2002"
+    ]
+  },
+  {
+    "courseId": "C-1763752296126",
+    "title": "engineering",
+    "description": "basics of engineering",
+    "instructorId": "1234",
+    "lessons": [
+      {
+        "lessonId": "C-1763752296126-L1",
+        "title": "lesson1",
+        "content": "maths",
+        "resources": []
+      }
+    ],
+    "students": [
+      "9666"
+    ]
+  }
+]

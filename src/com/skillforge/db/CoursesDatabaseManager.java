@@ -7,11 +7,11 @@ public class CoursesDatabaseManager extends jsonDatabaseManager<Course>{
     public CoursesDatabaseManager() {
         super(COURSES_FILE_PATH, Course.class);
     }
-    public static void main(String[] args)
+    /*public static void main(String[] args)
     {
         CoursesDatabaseManager db = new CoursesDatabaseManager() ;
         Course c = new Course("C03","hell","repeant to god","5678") ;
         db.add(c) ;
         System.out.println(db.getDataList());
-    }
+    }*/
 }

@@ -3,9 +3,9 @@ import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.main.InstructorDashboardFrame;
 import com.skillforge.model.Instructor;
 import com.skillforge.model.Student;
-import com.skillforge.main.StudentDashboard;
+
 import javax.swing.*;
-public class MainFrame extends JFrame {
+public class mainFrame extends JFrame {
 
 
 

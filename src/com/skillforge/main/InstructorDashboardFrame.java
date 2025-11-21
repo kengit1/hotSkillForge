@@ -7,6 +7,8 @@ import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
 import com.skillforge.model.Lesson;
 import com.skillforge.model.Instructor;
+import com.skillforge.model.User;
+
 import java.util.List;
 
 public class InstructorDashboardFrame extends JFrame {
@@ -18,7 +20,7 @@ public class InstructorDashboardFrame extends JFrame {
     private JList<String> coursesList;
     private JList<String> lessonsList;
 
-    public InstructorDashboardFrame(Instructor instructor,CoursesDatabaseManager courseDB, UserDatabaseManager userDB) {
+    public InstructorDashboardFrame(Instructor instructor, CoursesDatabaseManager courseDB, UserDatabaseManager userDB) {
 
         this.instructor = instructor;
         this.courseDB = courseDB;
@@ -28,6 +30,7 @@ public class InstructorDashboardFrame extends JFrame {
         setSize(1000, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
+        setLocationRelativeTo(null);
 
         initUI();
         loadCreatedCourses();
@@ -36,6 +39,19 @@ public class InstructorDashboardFrame extends JFrame {
     }
 
     private void initUI() {
+        JPanel topPanel = new JPanel(new BorderLayout());
+        JButton logoutBtn = new JButton("Logout");
+        logoutBtn.setBackground(Color.RED);
+        logoutBtn.setForeground(Color.WHITE);
+        logoutBtn.setFocusPainted(false);
+        logoutBtn.addActionListener(e -> {
+            SwingUtilities.invokeLater(() -> {
+                logoutform logout = new logoutform(instructor,this);
+                logout.setVisible(true);
+            });
+        });
+        topPanel.add(logoutBtn, BorderLayout.EAST);
+        add(topPanel, BorderLayout.NORTH);
         JPanel mainPanel = new JPanel(new GridLayout(1, 2));
         JPanel coursesPanel = new JPanel(new BorderLayout());
         coursesPanel.add(new JLabel("Your Courses", SwingConstants.CENTER), BorderLayout.NORTH);
@@ -90,6 +106,7 @@ public class InstructorDashboardFrame extends JFrame {
         }
         coursesList.setModel(model);
     }
+
     private void loadLessons() {
         String selected = coursesList.getSelectedValue();
         if (selected == null) return;
@@ -103,6 +120,7 @@ public class InstructorDashboardFrame extends JFrame {
 
         lessonsList.setModel(model);
     }
+
     private void createCourse() {
         String title = JOptionPane.showInputDialog("Enter Course Title:");
         if (title == null || title.isEmpty()) return;
@@ -148,6 +166,7 @@ public class InstructorDashboardFrame extends JFrame {
         loadCreatedCourses();
         JOptionPane.showMessageDialog(this, "Course deleted.");
     }
+
     private void addLesson() {
         String selected = coursesList.getSelectedValue();
         if (selected == null) return;
@@ -156,8 +175,8 @@ public class InstructorDashboardFrame extends JFrame {
         String title = JOptionPane.showInputDialog("Lesson Title:");
         String content = JOptionPane.showInputDialog("Lesson Content:");
         if (title == null || content == null) return;
-        String lessonId = courseId+"-L"+(course.getLessons().size() + 1);
-        Lesson lesson = new Lesson(lessonId,title,content);
+        String lessonId = courseId + "-L" + (course.getLessons().size() + 1);
+        Lesson lesson = new Lesson(lessonId, title, content);
         course.addLesson(lesson);
         courseDB.update(course);
         courseDB.saveData();
@@ -193,4 +212,5 @@ public class InstructorDashboardFrame extends JFrame {
         Course course = courseDB.findById(courseId);
         course.deleteLesson(lessonId);
         courseDB.update(course);
-    }}
+    }
+}
