@@ -1,15 +1,15 @@
 package com.skillforge.main;
 
 import javax.swing.*;
-import java.awt.*;import java.awt.event.*;
+import java.awt.*;
+import java.awt.event.*;
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
 import com.skillforge.model.Lesson;
 import com.skillforge.model.Instructor;
-import com.skillforge.model.QuizDialog;
-import com.skillforge.model.QuizEditorDialog ;
-
+import com.skillforge.model.QuizEditorDialog;
+import com.skillforge.model.Quiz;
 import java.util.List;
 
 public class InstructorDashboardFrame extends JFrame {
@@ -28,7 +28,7 @@ public class InstructorDashboardFrame extends JFrame {
         this.userDB = userDB;
 
         setTitle("Instructor Dashboard - " + instructor.getUserName());
-        setSize(1000, 600);
+        setSize(1100, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         setLocationRelativeTo(null);
@@ -52,7 +52,13 @@ public class InstructorDashboardFrame extends JFrame {
             });
         });
         topPanel.add(logoutBtn, BorderLayout.EAST);
+
+        JButton analyticsBtn = new JButton("View Analytics");
+        analyticsBtn.addActionListener(e -> openAnalytics());
+        topPanel.add(analyticsBtn, BorderLayout.WEST);
+
         add(topPanel, BorderLayout.NORTH);
+
         JPanel mainPanel = new JPanel(new GridLayout(1, 2));
         JPanel coursesPanel = new JPanel(new BorderLayout());
         coursesPanel.add(new JLabel("Your Courses", SwingConstants.CENTER), BorderLayout.NORTH);
@@ -61,27 +67,26 @@ public class InstructorDashboardFrame extends JFrame {
         coursesList.addListSelectionListener(e -> loadLessons());
         coursesPanel.add(new JScrollPane(coursesList), BorderLayout.CENTER);
 
-        JPanel courseButtons = new JPanel(new GridLayout(1, 3));
-
+        JPanel courseButtons = new JPanel(new GridLayout(1, 4));
         JButton createCourseBtn = new JButton("Create Course");
         createCourseBtn.addActionListener(e -> createCourse());
-
         JButton editCourseBtn = new JButton("Edit Course");
         editCourseBtn.addActionListener(e -> editCourse());
-
         JButton deleteCourseBtn = new JButton("Delete Course");
         deleteCourseBtn.addActionListener(e -> deleteCourse());
-
+        JButton approveBtn = new JButton("Set Status (P/A/R)");
+        approveBtn.addActionListener(e -> changeCourseStatus());
         courseButtons.add(createCourseBtn);
         courseButtons.add(editCourseBtn);
         courseButtons.add(deleteCourseBtn);
+        courseButtons.add(approveBtn);
         coursesPanel.add(courseButtons, BorderLayout.SOUTH);
+
         JPanel lessonsPanel = new JPanel(new BorderLayout());
         lessonsPanel.add(new JLabel("Lessons"), BorderLayout.NORTH);
-
         lessonsList = new JList<>();
         lessonsPanel.add(new JScrollPane(lessonsList), BorderLayout.CENTER);
-        JPanel lessonButtons = new JPanel(new GridLayout(1, 3));
+        JPanel lessonButtons = new JPanel(new GridLayout(1, 4));
         JButton addLessonBtn = new JButton("Add Lesson");
         addLessonBtn.addActionListener(e -> addLesson());
         JButton editLessonBtn = new JButton("Edit Lesson");
@@ -90,20 +95,30 @@ public class InstructorDashboardFrame extends JFrame {
         deleteLessonBtn.addActionListener(e -> deleteLesson());
         JButton manageQuizBtn = new JButton("Manage Quiz");
         manageQuizBtn.addActionListener(e -> manageQuiz());
-
         lessonButtons.add(addLessonBtn);
         lessonButtons.add(editLessonBtn);
         lessonButtons.add(deleteLessonBtn);
         lessonButtons.add(manageQuizBtn);
+        lessonsPanel.add(lessonButtons, BorderLayout.SOUTH);
 
-        lessonsPanel.add(lessonButtons, BorderLayout.SOUTH);
-        lessonButtons.add(addLessonBtn);
-        lessonButtons.add(editLessonBtn);
-        lessonButtons.add(deleteLessonBtn);
-        lessonsPanel.add(lessonButtons, BorderLayout.SOUTH);
         mainPanel.add(coursesPanel);
         mainPanel.add(lessonsPanel);
         add(mainPanel, BorderLayout.CENTER);
+    }
+
+    private void openAnalytics() {
+        String selected = coursesList.getSelectedValue();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Select a course to view analytics.");
+            return;
+        }
+        String courseId = selected.split(" - ")[0];
+        Course course = courseDB.findById(courseId);
+        if (course == null) return;
+
+        InstructorAnalyticsService analyticsService = new InstructorAnalyticsService(courseDB, userDB);
+        AnalyticsTabbedFrame frame = new AnalyticsTabbedFrame(this, course, analyticsService);
+        frame.setVisible(true);
     }
 
     private void manageQuiz() {
@@ -125,9 +140,8 @@ public class InstructorDashboardFrame extends JFrame {
         if (lesson == null) return;
 
         if (lesson.getQuiz() == null) {
-            lesson.setQuiz(new com.skillforge.model.Quiz());
+            lesson.setQuiz(new Quiz());
         }
-
 
         QuizEditorDialog editor = new QuizEditorDialog(this, lesson.getQuiz());
         editor.setVisible(true);
@@ -170,13 +184,14 @@ public class InstructorDashboardFrame extends JFrame {
         if (desc == null || desc.isEmpty()) return;
         String id = "C-" + System.currentTimeMillis();
         Course newCourse = new Course(id, title, desc, instructor.getID());
+        newCourse.setStatus("PENDING"); // when created require approval by admin
         courseDB.add(newCourse);
         courseDB.saveData();
         instructor.addCreatedCourse(id);
         userDB.update(instructor);
         userDB.saveData();
         loadCreatedCourses();
-        JOptionPane.showMessageDialog(this, "Course created!");
+        JOptionPane.showMessageDialog(this, "Course created! Status set to PENDING.");
     }
 
     private void editCourse() {
@@ -254,5 +269,32 @@ public class InstructorDashboardFrame extends JFrame {
         Course course = courseDB.findById(courseId);
         course.deleteLesson(lessonId);
         courseDB.update(course);
+        courseDB.saveData();
+        loadLessons();
+    }
+
+    private void changeCourseStatus() {
+        String selected = coursesList.getSelectedValue();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Select a course first.");
+            return;
+        }
+        String courseId = selected.split(" - ")[0];
+        Course course = courseDB.findById(courseId);
+        if (course == null) return;
+        String current = course.getStatus();
+        String newStatus = JOptionPane.showInputDialog(this,
+                "Set course status (PENDING / APPROVED / REJECTED):", current == null ? "PENDING" : current);
+        if (newStatus == null) return;
+        newStatus = newStatus.trim().toUpperCase();
+        if (!("PENDING".equals(newStatus) || "APPROVED".equals(newStatus) || "REJECTED".equals(newStatus))) {
+            JOptionPane.showMessageDialog(this, "Invalid status. Use PENDING, APPROVED or REJECTED.");
+            return;
+        }
+        course.setStatus(newStatus);
+        courseDB.update(course);
+        courseDB.saveData();
+        JOptionPane.showMessageDialog(this, "Course status updated to " + newStatus);
+        loadCreatedCourses();
     }
 }

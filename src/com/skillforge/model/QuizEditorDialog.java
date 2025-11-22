@@ -139,7 +139,6 @@ public class QuizEditorDialog extends JDialog {
         Question q = new Question(text, ops, correctIdx);
         quiz.addQuestion(q);
 
-        // Clear fields
         questionField.setText("");
         opt1Field.setText("");
         opt2Field.setText("");

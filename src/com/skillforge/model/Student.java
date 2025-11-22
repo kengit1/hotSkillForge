@@ -1,43 +1,58 @@
 package com.skillforge.model;
 
-import com.skillforge.db.CoursesDatabaseManager;
-import com.skillforge.db.UserDatabaseManager;
-import com.skillforge.model.Course;
 import com.skillforge.model.User;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+public class Student extends User {
 
-public  class Student extends User {
-    private List<String> enrolledCourses;
-    private Map<String, List<String>> progress;
-    private Map<String, Double> quizScores;
-    public Student(String userId, String role, String username, String email, String passwordHash,List<String> enrolledCourses,Map<String,List<String>> progress) {
+    private List<String> enrolledCourses;               // course IDs
+    private Map<String, List<String>> progress;         // courseId → list of completed lesson IDs
+    private Map<String, Double> quizScores;             // lessonId → score
+
+    // 🔥 FIXED & updated constructor
+    public Student(String userId, String role, String username, String email, String passwordHash,
+                   List<String> enrolledCourses, Map<String, List<String>> progress,
+                   Map<String, Double> quizScores) {
+
         setUserID(userId);
         setUserName(username);
         setRole(role);
         setEmail(email);
         setPasswordHash(passwordHash);
-        this.enrolledCourses = (enrolledCourses != null) ? enrolledCourses : new ArrayList<>();
-        this.progress=(progress !=null)? progress:new HashMap<>();
+
         this.enrolledCourses = (enrolledCourses != null) ? enrolledCourses : new ArrayList<>();
         this.progress = (progress != null) ? progress : new HashMap<>();
-        // Initialize quizScores
         this.quizScores = (quizScores != null) ? quizScores : new HashMap<>();
     }
-    public List<String> getEnrolledCourses() { return enrolledCourses;}
-    public Map<String, List<String>> getProgress() {return progress; }
+
+    // Overload constructor (old one)
+    public Student(String userId, String role, String username, String email, String passwordHash,
+                   List<String> enrolledCourses, Map<String, List<String>> progress) {
+        this(userId, role, username, email, passwordHash,
+                enrolledCourses,
+                progress,
+                new HashMap<>());
+    }
+
+    public List<String> getEnrolledCourses() { return enrolledCourses; }
+    public Map<String, List<String>> getProgress() { return progress; }
+    public Map<String, Double> getQuizScores() { return quizScores; }
 
     @Override
     public String getID() {
         return getUserID();
     }
-    public Map<String, Double> getQuizScores() { return quizScores; }
+
+    // 🔥 NEW: analytics helpers
+    public void addCompletedLesson(String courseId, String lessonId) {
+        progress.computeIfAbsent(courseId, k -> new ArrayList<>());
+        if (!progress.get(courseId).contains(lessonId)) {
+            progress.get(courseId).add(lessonId);
+        }
+    }
 
     public void addQuizScore(String lessonId, double score) {
-        this.quizScores.put(lessonId, score);
+        quizScores.put(lessonId, score);
     }
 
     @Override
