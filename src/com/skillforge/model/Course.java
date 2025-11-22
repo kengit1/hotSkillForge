@@ -12,6 +12,8 @@ public class Course implements DatabaseEntity {
     private List<Lesson> lessons;
     private List<String> students;
 
+    private String approvalStatus;
+
     public Course(String courseId, String title, String description, String instructorId) {
         this.courseId = courseId;
         this.title = title;
@@ -19,6 +21,8 @@ public class Course implements DatabaseEntity {
         this.instructorId = instructorId;
         this.lessons = new ArrayList<>();
         this.students = new ArrayList<>();
+
+        this.approvalStatus = "PENDING";
     }
 
     @Override
@@ -31,6 +35,14 @@ public class Course implements DatabaseEntity {
     public String getInstructorId() { return instructorId; }
     public List<Lesson> getLessons() { return lessons; }
     public List<String> getStudents() { return students; }
+
+    public String getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(String status) {
+        this.approvalStatus = status;
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -50,7 +62,6 @@ public class Course implements DatabaseEntity {
         this.lessons.add(lesson);
     }
 
-
     public Lesson getLesson(String lessonId) {
         for (Lesson lesson : this.lessons) {
             if (lesson.getID().equals(lessonId)) {
@@ -60,7 +71,6 @@ public class Course implements DatabaseEntity {
         System.out.println("Lesson not found!!");
         return null;
     }
-
 
     public boolean deleteLesson(String lessonId) {
         Lesson lessonToRemove = getLesson(lessonId);
@@ -82,6 +92,6 @@ public class Course implements DatabaseEntity {
 
     @Override
     public String toString() {
-        return this.getID()+" "+this.getTitle()+" "+this.getDescription();
+        return this.getID()+" "+this.getTitle()+" "+this.getDescription() + " " + this.approvalStatus;
     }
 }
