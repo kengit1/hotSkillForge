@@ -156,11 +156,42 @@ public class StudentDashboard extends JFrame {
         }
         String courseId = courseEntry.split(" - ")[0];
         String lessonId = lessonEntry.split(" - ")[0];
-        student.getProgress()
-                .computeIfAbsent(courseId, k -> new java.util.ArrayList<>())
-                .add(lessonId);
-        userDB.update(student);
-        userDB.saveData();
-        JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
+
+        Course course = courseDB.findById(courseId);
+        Lesson lesson = course.getLesson(lessonId);
+
+        // Check if lesson has a quiz
+        if (lesson.hasQuiz()) {
+            int choice = JOptionPane.showConfirmDialog(this,
+                    "This lesson has a quiz. You must pass it to complete the lesson.\nStart Quiz now?",
+                    "Quiz Required", JOptionPane.YES_NO_OPTION);
+
+            if (choice == JOptionPane.YES_OPTION) {
+                QuizDialog quizDialog = new QuizDialog(this, lesson.getTitle(), lesson.getQuiz());
+                quizDialog.setVisible(true);
+
+                if (quizDialog.isPassed()) {
+                    student.addQuizScore(lessonId, quizDialog.getScore());
+
+                    student.getProgress()
+                            .computeIfAbsent(courseId, k -> new java.util.ArrayList<>())
+                            .add(lessonId);
+
+                    userDB.update(student);
+                    userDB.saveData();
+                    JOptionPane.showMessageDialog(this, "Lesson Completed & Score Saved!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "You did not pass the quiz. Lesson not completed.");
+                }
+            }
+        } else {
+
+            student.getProgress()
+                    .computeIfAbsent(courseId, k -> new java.util.ArrayList<>())
+                    .add(lessonId);
+            userDB.update(student);
+            userDB.saveData();
+            JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
+        }
     }
 }

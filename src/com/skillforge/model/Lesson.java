@@ -9,6 +9,7 @@ public class Lesson implements DatabaseEntity {
     private String title;
     private String content;
     private List<String> resources;
+    private Quiz quiz;
 
 
     public Lesson(String lessonId, String title, String content) {
@@ -16,6 +17,7 @@ public class Lesson implements DatabaseEntity {
         this.title = title;
         this.content = content;
         this.resources = new ArrayList<>();
+        this.quiz = null;
     }
 
     @Override
@@ -26,6 +28,8 @@ public class Lesson implements DatabaseEntity {
     public String getTitle() { return title; }
     public String getContent() { return content; }
     public List<String> getResources() { return resources; }
+    public Quiz getQuiz() { return quiz; }
+    public void setQuiz(Quiz quiz) { this.quiz = quiz; }
 
 
 
@@ -42,6 +46,9 @@ public class Lesson implements DatabaseEntity {
         }
     }
 
+    public boolean hasQuiz() {
+        return this.quiz != null && !this.quiz.getQuestions().isEmpty();
+    }
     public boolean removeResource(String resourcePath) {
         return this.resources.remove(resourcePath);
     }
