@@ -1,7 +1,5 @@
-package com.skillforge.main;
+package com.skillforge.model;
 
-import com.skillforge.model.Question;
-import com.skillforge.model.Quiz;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;

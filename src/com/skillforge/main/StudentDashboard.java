@@ -3,6 +3,7 @@ import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
 import com.skillforge.model.Lesson;
+import com.skillforge.model.QuizDialog;
 import com.skillforge.model.Student;
 
 import javax.swing.*;

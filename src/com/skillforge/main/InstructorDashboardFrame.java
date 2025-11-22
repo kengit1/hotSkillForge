@@ -7,7 +7,8 @@ import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
 import com.skillforge.model.Lesson;
 import com.skillforge.model.Instructor;
-import com.skillforge.model.User;
+import com.skillforge.model.QuizDialog;
+import com.skillforge.model.QuizEditorDialog ;
 
 import java.util.List;
 
@@ -87,6 +88,15 @@ public class InstructorDashboardFrame extends JFrame {
         editLessonBtn.addActionListener(e -> editLesson());
         JButton deleteLessonBtn = new JButton("Delete Lesson");
         deleteLessonBtn.addActionListener(e -> deleteLesson());
+        JButton manageQuizBtn = new JButton("Manage Quiz");
+        manageQuizBtn.addActionListener(e -> manageQuiz());
+
+        lessonButtons.add(addLessonBtn);
+        lessonButtons.add(editLessonBtn);
+        lessonButtons.add(deleteLessonBtn);
+        lessonButtons.add(manageQuizBtn);
+
+        lessonsPanel.add(lessonButtons, BorderLayout.SOUTH);
         lessonButtons.add(addLessonBtn);
         lessonButtons.add(editLessonBtn);
         lessonButtons.add(deleteLessonBtn);
@@ -94,6 +104,38 @@ public class InstructorDashboardFrame extends JFrame {
         mainPanel.add(coursesPanel);
         mainPanel.add(lessonsPanel);
         add(mainPanel, BorderLayout.CENTER);
+    }
+
+    private void manageQuiz() {
+
+        String courseSel = coursesList.getSelectedValue();
+        String lessonSel = lessonsList.getSelectedValue();
+
+        if (courseSel == null || lessonSel == null) {
+            JOptionPane.showMessageDialog(this, "Please select a course and a lesson first.");
+            return;
+        }
+
+        String courseId = courseSel.split(" - ")[0];
+        String lessonId = lessonSel.split(" - ")[0];
+
+        Course course = courseDB.findById(courseId);
+        Lesson lesson = course.getLesson(lessonId);
+
+        if (lesson == null) return;
+
+        if (lesson.getQuiz() == null) {
+            lesson.setQuiz(new com.skillforge.model.Quiz());
+        }
+
+
+        QuizEditorDialog editor = new QuizEditorDialog(this, lesson.getQuiz());
+        editor.setVisible(true);
+
+        courseDB.update(course);
+        courseDB.saveData();
+
+        JOptionPane.showMessageDialog(this, "Quiz saved successfully!");
     }
 
     private void loadCreatedCourses() {
