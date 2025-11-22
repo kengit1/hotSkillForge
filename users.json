@@ -1,42 +1,62 @@
 [
   {
     "createdCourses": [
-      "C-1763752296126",
-      "C-1763760320942"
+      "C01",
+      "C02"
     ],
-    "userID": "1234",
-    "userName": "hamada111",
+    "userID": "U1000",
+    "userName": "DrHamada",
     "role": "Instructor",
-    "email": "hamada@gmail",
-    "passwordHash": "cd49dafb6196647f273cff14723c04fa8b92a6665826c777ecd2be56aa502fd5"
+    "email": "instructor@test.com",
+    "passwordHash": "5994471abb01112afcc18159f6cc74b4f511b99806da5b4f5a5a8a0e62b9985a"
   },
+
   {
     "enrolledCourses": [
       "C01",
-      "C-1763752296126",
-      "C-1763760320942"
+      "C02"
     ],
     "progress": {
-      "C-1763752296126": [
-        "C-1763752296126-L1"
-      ],
-      "C01": [
-        "L001"
-      ]
+      "C01": ["L001", "L002"],
+      "C02": ["L101"]
     },
-    "userID": "9666",
-    "userName": "OmarHesham",
+    "quizScores": {
+      "L001": 85.5,
+      "L002": 92.0,
+      "L101": 70.0
+    },
+    "userID": "U2001",
+    "userName": "Ahmed",
     "role": "Student",
-    "email": "omar@gmail.com",
+    "email": "ahmed@test.com",
     "passwordHash": "20ef919015d88e84b14d1fa98ca9bf061e860988e9e8694d05232ba1c7acf736"
   },
+
+  {
+    "enrolledCourses": [
+      "C01"
+    ],
+    "progress": {
+      "C01": ["L001"]
+    },
+    "quizScores": {
+      "L001": 60.0
+    },
+    "userID": "U2002",
+    "userName": "Maged",
+    "role": "Student",
+    "email": "maged@test.com",
+    "passwordHash": "5c88c4535bd741a67d2b8bb3aee0becc34632cc3e63399f7bac46640ae76c712"
+  },
+
   {
     "enrolledCourses": [],
     "progress": {},
-    "userID": "8888",
-    "userName": "mahmoud",
+    "quizScores": {},
+    "userID": "U2003",
+    "userName": "OmarHesham",
     "role": "Student",
-    "email": "mahmoud@gmail.com",
-    "passwordHash": "5c88c4535bd741a67d2b8bb3aee0becc34632cc3e63399f7bac46640ae76c712"
+    "email": "omar@test.com",
+    "passwordHash": "20ef919015d88e84b14d1fa98ca9bf061e860988e9e8694d05232ba1c7acf736"
   }
 ]
