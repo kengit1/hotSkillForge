@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.google.gson.JsonObject;
+import com.skillforge.db.CertificateDatabaseManager;
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import org.json.JSONArray;
@@ -79,16 +80,20 @@ public class login_panel extends JFrame{
                     JSONArray EnrolledCoursesArray;
                     JSONArray CreatedcoursesArray;
                     JSONObject progressObj;
+                    JSONObject quizobj;
 
-                    if (true){
+                    if (userEmail.equals(email) && userRole.equals(type) & userPasswordHash.equals(securityUtils.hashPassword(password))){
                         /*userEmail.equals(email) && userRole.equals(type) & userPasswordHash.equals(securityUtils.hashPassword(password))*/
                         found = true;
                         if(userRole.equals("Student")){
                             EnrolledCoursesArray = userObj.getJSONArray("enrolledCourses");
                             progressObj = userObj.getJSONObject("progress");
+                            quizobj = userObj.getJSONObject("quizScores");
                             List<String> EnrolledCourses = getCoursesList(EnrolledCoursesArray);
                             Map<String, List<String>> progress = getProgressMap(progressObj);
-                            S = new Student(userID,userRole,username,userEmail,userPasswordHash,EnrolledCourses,progress);
+                            Map<String,Double> scores = getscores(quizobj);
+                            List<String> certificates = null;
+                            S = new Student(userID,userRole,username,userEmail,userPasswordHash,EnrolledCourses,progress,scores,certificates);
                         }
                         else if(userRole.equals("Instructor")){
                             CreatedcoursesArray = userObj.getJSONArray("createdCourses");
@@ -134,6 +139,14 @@ public class login_panel extends JFrame{
         return progress;
     }
 
+    private Map<String, Double> getscores(JSONObject object){
+        Map<String, Double> scores = new HashMap<>();
+        for (String key : object.keySet()) {
+            scores.put(key, object.getDouble(key));
+        }
+        return scores;
+    }
+
     private void goback() {
 
         SwingUtilities.invokeLater(() -> {
@@ -145,8 +158,9 @@ public class login_panel extends JFrame{
     private void openStudentDashboard(Student s){
         UserDatabaseManager us=new UserDatabaseManager("users.json");
         CoursesDatabaseManager cs=new CoursesDatabaseManager();
+        CertificateDatabaseManager cc = new CertificateDatabaseManager();
         SwingUtilities.invokeLater(() -> {
-            StudentDashboard panel = new StudentDashboard(s,cs,us);
+            StudentDashboard panel = new StudentDashboard(s,cs,us,cc);
             panel.setVisible(true);
         });
     }

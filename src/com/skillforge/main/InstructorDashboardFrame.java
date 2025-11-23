@@ -168,6 +168,7 @@ public class InstructorDashboardFrame extends JFrame {
         if (selected == null) return;
         String courseId = selected.split(" - ")[0];
         Course course = courseDB.findById(courseId);
+
         if (course == null) return;
         DefaultListModel<String> model = new DefaultListModel<>();
         for (Lesson lesson : course.getLessons()) {
@@ -184,7 +185,7 @@ public class InstructorDashboardFrame extends JFrame {
         if (desc == null || desc.isEmpty()) return;
         String id = "C-" + System.currentTimeMillis();
         Course newCourse = new Course(id, title, desc, instructor.getID());
-        newCourse.setStatus("PENDING"); // when created require approval by admin
+        newCourse.setApprovalStatus("PENDING"); // when created require approval by admin
         courseDB.add(newCourse);
         courseDB.saveData();
         instructor.addCreatedCourse(id);
@@ -282,7 +283,7 @@ public class InstructorDashboardFrame extends JFrame {
         String courseId = selected.split(" - ")[0];
         Course course = courseDB.findById(courseId);
         if (course == null) return;
-        String current = course.getStatus();
+        String current = course.getApprovalStatus();
         String newStatus = JOptionPane.showInputDialog(this,
                 "Set course status (PENDING / APPROVED / REJECTED):", current == null ? "PENDING" : current);
         if (newStatus == null) return;
@@ -291,7 +292,7 @@ public class InstructorDashboardFrame extends JFrame {
             JOptionPane.showMessageDialog(this, "Invalid status. Use PENDING, APPROVED or REJECTED.");
             return;
         }
-        course.setStatus(newStatus);
+        course.setApprovalStatus(newStatus);
         courseDB.update(course);
         courseDB.saveData();
         JOptionPane.showMessageDialog(this, "Course status updated to " + newStatus);

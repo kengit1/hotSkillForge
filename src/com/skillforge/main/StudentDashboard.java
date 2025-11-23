@@ -1,14 +1,19 @@
 package com.skillforge.main;
 
+import com.skillforge.db.CertificateDatabaseManager;
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
 import com.skillforge.model.Course;
 import com.skillforge.model.Lesson;
 import com.skillforge.model.QuizDialog;
 import com.skillforge.model.Student;
+import com.skillforge.model.Certificate;
+import com.skillforge.model.CertificateService;
+import java.util.Optional;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDashboard extends JFrame {
@@ -16,18 +21,29 @@ public class StudentDashboard extends JFrame {
     private final Student student;
     private final CoursesDatabaseManager courseDB;
     private final UserDatabaseManager userDB;
+    private final CertificateDatabaseManager certDB;
 
     private JList<String> availableCoursesList;
     private JList<String> enrolledCoursesList;
     private JList<String> lessonsList;
 
-    public StudentDashboard(Student student, CoursesDatabaseManager courseDB, UserDatabaseManager userDB) {
+    private CertificateService certificateService;
+    private List<Certificate> certs;
+    private JButton getCertificateButton;
+
+
+    public StudentDashboard(Student student, CoursesDatabaseManager courseDB, UserDatabaseManager userDB,CertificateDatabaseManager certDB) {
 
         this.student = student;
         this.courseDB = courseDB;
         this.userDB = userDB;
+        this.certDB = certDB;
 
-        setTitle("Student Dashboard - " + student.getUserName());
+        this.certificateService = new CertificateService(courseDB,userDB,certDB);  // ADD THIS
+        this.certs = certificateService.getStudentCertificates(this.student.getUserID());  // NOW SAFE
+
+
+            setTitle("Student Dashboard - " + student.getUserName());
         setSize(950, 620);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -55,6 +71,26 @@ public class StudentDashboard extends JFrame {
         topPanel.add(logoutBtn, BorderLayout.EAST);
         add(topPanel, BorderLayout.NORTH);
 
+        JButton certificatesBtn = new JButton("My Certificates");
+        certificatesBtn.setBackground(new Color(52, 152, 219));
+        certificatesBtn.setForeground(Color.WHITE);
+        certificatesBtn.setFocusPainted(false);
+        certificatesBtn.addActionListener(e -> {
+            List<Certificate> certs = certificateService.getStudentCertificates(student.getUserID());
+
+            if (certs.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "You have no certificates yet.");
+            } else {
+                StringBuilder sb = new StringBuilder("Your Earned Certificates:\n\n");
+                for (Certificate c : certs) {
+                    sb.append("• ").append(c.getCourseId()).append(" (").append(c.getIssueDate()).append(")\n");
+                }
+                JOptionPane.showMessageDialog(this, sb.toString());
+            }
+        });
+        topPanel.add(certificatesBtn, BorderLayout.WEST);
+
+
         JPanel mainPanel = new JPanel(new GridLayout(1, 3));
         JPanel availablePanel = new JPanel(new BorderLayout());
         availablePanel.add(new JLabel("Available Courses", SwingConstants.CENTER), BorderLayout.NORTH);
@@ -68,6 +104,30 @@ public class StudentDashboard extends JFrame {
         enrolledCoursesList = new JList<>();
         enrolledCoursesList.addListSelectionListener(e -> loadLessons());
         enrolledPanel.add(new JScrollPane(enrolledCoursesList), BorderLayout.CENTER);
+
+        getCertificateButton = new JButton("Get Certificate");
+        getCertificateButton.setVisible(false);
+
+        getCertificateButton.addActionListener(e -> {
+            String selectedCourse = enrolledCoursesList.getSelectedValue();
+            if (selectedCourse == null) return;
+            String courseId = selectedCourse.split(" - ")[0];
+            Optional<Certificate> certOpt =
+                    certificateService.generateCertificate(student.getUserID(), courseId);
+            if (certOpt.isPresent()) {
+                Certificate cert = certOpt.get();
+                JOptionPane.showMessageDialog(this,
+                        "Certificate Generated!\nCertificate ID: " + cert.getCertificateId(),
+                        "Success",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "You cannot generate a certificate for this course.\nYou must finish all lessons.",
+                        "Not Completed",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        enrolledPanel.add(getCertificateButton, BorderLayout.SOUTH);
 
         JPanel lessonsPanel = new JPanel(new BorderLayout());
         lessonsPanel.add(new JLabel("Lessons", SwingConstants.CENTER), BorderLayout.NORTH);
@@ -95,7 +155,7 @@ public class StudentDashboard extends JFrame {
         DefaultListModel<String> model = new DefaultListModel<>();
 
         for (Course c : allCourses) {
-            String status = c.getStatus();
+            String status = c.getApprovalStatus();
             if (!student.getEnrolledCourses().contains(c.getCourseId()) && (status == null || "APPROVED".equalsIgnoreCase(status))) {
                 model.addElement(c.getCourseId() + " - " + c.getTitle());
             }
@@ -125,10 +185,16 @@ public class StudentDashboard extends JFrame {
         String courseId = selected.split(" - ")[0];
         Course course = courseDB.findById(courseId);
 
+        // Toggle certificate button visibility based on completion
+        List<String> completed = student.getProgress().getOrDefault(courseId, List.of());
+        boolean fullyCompleted = completed.size() == course.getLessons().size();
+
+        getCertificateButton.setVisible(fullyCompleted);
+
         if (course == null) return;
 
         DefaultListModel<String> model = new DefaultListModel<>();
-        List<String> completed = student.getProgress().getOrDefault(courseId, List.of());
+        List<String> completedcourses = student.getProgress().getOrDefault(courseId, List.of());
 
         for (Lesson lesson : course.getLessons()) {
             boolean isCompleted = completed.contains(lesson.getLessonId()) || course.getLessons().stream()
@@ -149,6 +215,11 @@ public class StudentDashboard extends JFrame {
         }
         String courseId = selected.split(" - ")[0];
         Course course = courseDB.findById(courseId);
+        // Toggle certificate button visibility based on completion
+        List<String> completed = student.getProgress().getOrDefault(courseId, List.of());
+        boolean fullyCompleted = completed.size() == course.getLessons().size();
+
+        getCertificateButton.setVisible(fullyCompleted);
         if (course == null) return;
         course.addStudent(student.getUserID());
         courseDB.update(course);
@@ -224,7 +295,7 @@ public class StudentDashboard extends JFrame {
         if (lesson == null) return;
 
         // check duplicate completion
-        List<String> completed = student.getProgress().computeIfAbsent(courseId, k -> new java.util.ArrayList<>());
+        List<String> completed = student.getProgress().computeIfAbsent(courseId, k -> new ArrayList<>());
         if (completed.contains(lessonId) || lesson.getCompletedStudents().contains(student.getUserID())) {
             JOptionPane.showMessageDialog(this, "You already completed this lesson.");
             return;
@@ -273,4 +344,11 @@ public class StudentDashboard extends JFrame {
             loadLessons();
         }
     }
+    public boolean hasCompletedCourse(Student student, Course course) {
+        List<String> completedLessons = student.getProgress().get(course.getID());
+        if (completedLessons == null) return false;
+
+        return completedLessons.size() == course.getLessons().size();
+    }
+
 }

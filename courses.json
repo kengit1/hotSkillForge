@@ -4,7 +4,6 @@
     "title": "Introduction to Java",
     "description": "Learn the fundamentals of Java programming, including syntax, variables, loops, and OOP basics.",
     "instructorId": "U1001",
-    "status": "APPROVED",
     "lessons": [
       {
         "lessonId": "L001",
@@ -43,28 +42,55 @@
     "title": "Object-Oriented Programming",
     "description": "Deep dive into OOP concepts such as inheritance, abstraction, polymorphism, and encapsulation.",
     "instructorId": "U1002",
-    "status": "APPROVED",
     "lessons": [
       {
         "lessonId": "L101",
         "title": "Classes and Objects",
         "content": "Understanding classes, objects, attributes, methods, constructors.",
         "resources": [],
-        "completedStudents": [],
-        "quizResults": []
+        "completedStudents": [
+          "U2003"
+        ],
+        "quizResults": [
+          {
+            "studentId": "U2003",
+            "score": 100.0
+          }
+        ],
+        "quiz": {
+          "questions": [
+            {
+              "questionText": "how many eyes do humans have",
+              "options": [
+                "1",
+                "2",
+                "3",
+                "4"
+              ],
+              "correctOptionIndex": 1
+            }
+          ],
+          "passingScore": 50
+        }
       },
       {
         "lessonId": "L102",
         "title": "Inheritance",
         "content": "How classes can inherit behaviors and attributes from parent classes.",
         "resources": [],
-        "completedStudents": [],
+        "completedStudents": [
+          "U2003"
+        ],
         "quizResults": []
       }
     ],
     "students": [
       "U2001",
-      "U2002"
+      "U2002",
+      "U2003"
+    ],
+    "issuedCertificates": [
+      "CERT-1763923366975"
     ]
   },
   {
@@ -72,14 +98,15 @@
     "title": "Data Structures in Java",
     "description": "Learn stacks, queues, linked lists, trees, and how to implement them in Java.",
     "instructorId": "U1003",
-    "status": "APPROVED",
     "lessons": [
       {
         "lessonId": "L201",
         "title": "Arrays and Lists",
         "content": "Understanding arrays, ArrayList, and basic operations.",
         "resources": [],
-        "completedStudents": [],
+        "completedStudents": [
+          "U2003"
+        ],
         "quizResults": []
       },
       {
@@ -87,13 +114,16 @@
         "title": "Stacks and Queues",
         "content": "Implementing stacks and queues using arrays and linked lists.",
         "resources": [],
-        "completedStudents": [],
+        "completedStudents": [
+          "U2003"
+        ],
         "quizResults": []
       }
     ],
     "students": [
       "U2001",
-      "U2002"
+      "U2002",
+      "U2003"
     ]
   },
   {
@@ -101,7 +131,6 @@
     "title": "engineering",
     "description": "basics of engineering",
     "instructorId": "1234",
-    "status": "APPROVED",
     "lessons": [
       {
         "lessonId": "C-1763752296126-L1",
@@ -109,7 +138,8 @@
         "content": "maths",
         "resources": [],
         "completedStudents": [
-          "9666"
+          "9666",
+          "U2003"
         ],
         "quizResults": [
           {
@@ -120,7 +150,11 @@
       }
     ],
     "students": [
-      "9666"
+      "9666",
+      "U2003"
+    ],
+    "issuedCertificates": [
+      "CERT-1763923380620"
     ]
   }
 ]

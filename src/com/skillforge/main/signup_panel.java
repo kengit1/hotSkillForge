@@ -79,6 +79,7 @@ public class signup_panel extends JFrame {
                         Email,
                         securityUtils.hashPassword(password1),
                         null,
+                        null,
                         null
                 );
                 UserDatabaseManager db = new UserDatabaseManager("users.json");

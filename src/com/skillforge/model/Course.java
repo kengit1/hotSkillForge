@@ -11,6 +11,8 @@ public class Course implements DatabaseEntity {
     private String instructorId;
     private List<Lesson> lessons;
     private List<String> students;
+    private String approvedstatus;
+    private List<String> issuedCertificates;
 
     public Course(String courseId, String title, String description, String instructorId) {
         this.courseId = courseId;
@@ -19,6 +21,7 @@ public class Course implements DatabaseEntity {
         this.instructorId = instructorId;
         this.lessons = new ArrayList<>();
         this.students = new ArrayList<>();
+        this.issuedCertificates = new ArrayList<>();
     }
 
     @Override
@@ -31,6 +34,7 @@ public class Course implements DatabaseEntity {
     public String getInstructorId() { return instructorId; }
     public List<Lesson> getLessons() { return lessons; }
     public List<String> getStudents() { return students; }
+    public String getApprovalStatus() { return approvedstatus; }
 
     public void setTitle(String title) {
         this.title = title;
@@ -38,6 +42,10 @@ public class Course implements DatabaseEntity {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setApprovalStatus(String status){
+        this.approvedstatus = status;
     }
 
     public void addLesson(Lesson lesson) {
@@ -78,6 +86,14 @@ public class Course implements DatabaseEntity {
 
     public boolean removeStudentId(String studentId) {
         return this.students.remove(studentId);
+    }
+
+    public void addIssuedCertificate(String certId) {
+        if (this.issuedCertificates == null) {
+            this.issuedCertificates = new ArrayList<>();
+        }
+        if (!issuedCertificates.contains(certId))
+            issuedCertificates.add(certId);
     }
 
     @Override
