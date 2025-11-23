@@ -1,6 +1,7 @@
 package com.skillforge.db;
 
 import com.google.gson.*;
+import com.skillforge.model.Admin;
 import com.skillforge.model.Instructor;
 import com.skillforge.model.Student;
 import com.skillforge.model.User;
@@ -24,6 +25,8 @@ public class UserDeserializer implements JsonDeserializer<User> {
                     context.deserialize(jsonObject, Student.class);
             case "instructor" ->
                     context.deserialize(jsonObject, Instructor.class);
+            case "admin" ->
+                    context.deserialize(jsonObject, Admin.class);
             default -> throw new JsonParseException("Unknown user role: " + role);
         };
     }

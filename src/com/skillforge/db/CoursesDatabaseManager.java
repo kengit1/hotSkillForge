@@ -26,7 +26,8 @@ public class CoursesDatabaseManager extends jsonDatabaseManager<Course> {
     public List<Course> getPendingCourses() {
         List<Course> pending = new ArrayList<>();
         for (Course c : getDataList()) {
-            if (c.getApprovalStatus().equalsIgnoreCase("Pending")) {
+            String status = c.getApprovalStatus(); // Get the status once
+            if (status != null && status.equalsIgnoreCase("Pending")) { // Add null check
                 pending.add(c);
             }
         }

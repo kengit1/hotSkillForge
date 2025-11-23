@@ -103,5 +103,26 @@ public class CourseService {
                 .map(u -> u.getUserName() + " (" + u.getEmail() + ")")
                 .collect(Collectors.toList());
     }
+    public boolean approveCourse(String courseID){
+        Course course = courseDB.findById(courseID);
+        if (course == null) return false;
+
+        course.setApprovalStatus("APPROVED");
+
+        boolean success = courseDB.update(course);
+        if (success) courseDB.saveData();
+        return success;
+    }
+    public boolean rejectCourse(String courseID){
+        Course course = courseDB.findById(courseID);
+        if (course == null) return false;
+
+        course.setApprovalStatus("REJECTED");
+
+        boolean success = courseDB.update(course);
+        if (success) courseDB.saveData();
+        return success;
+    }
+
 
 }//

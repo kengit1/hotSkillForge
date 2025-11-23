@@ -112,6 +112,24 @@ public class signup_panel extends JFrame {
                 openloginpanel();
                 dispose();
             }
+            else if(Usertype.equals("Admin")){
+                User newUser = new Admin(
+                        ID,
+                        Username,
+                        Email,
+                        securityUtils.hashPassword(password1)
+                );
+                UserDatabaseManager db = new UserDatabaseManager("users.json");
+                db.add(newUser);
+                db.saveData();
+                JOptionPane.showMessageDialog(this, "Successful signup", "Success", JOptionPane.INFORMATION_MESSAGE);
+                namefield.setText("");
+                passwordField1.setText("");
+                passwordField2.setText("");
+                Emailfield.setText("");
+                openloginpanel();
+                dispose();
+            }
         }
     }
 

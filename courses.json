@@ -35,7 +35,8 @@
       "U2001",
       "U2002",
       "9666"
-    ]
+    ],
+    "approvedstatus": "PENDING"
   },
   {
     "courseId": "C02",
@@ -89,6 +90,7 @@
       "U2002",
       "U2003"
     ],
+    "approvedstatus": "PENDING",
     "issuedCertificates": [
       "CERT-1763923366975"
     ]
@@ -124,6 +126,10 @@
       "U2001",
       "U2002",
       "U2003"
+    ],
+    "approvedstatus": "APPROVED",
+    "issuedCertificates": [
+      "CERT-1763924091255"
     ]
   },
   {
@@ -153,8 +159,19 @@
       "9666",
       "U2003"
     ],
+    "approvedstatus": "PENDING",
     "issuedCertificates": [
       "CERT-1763923380620"
     ]
+  },
+  {
+    "courseId": "C-1763932380550",
+    "title": "Maths-2",
+    "description": "mathematics",
+    "instructorId": "U1000",
+    "lessons": [],
+    "students": [],
+    "approvedstatus": "APPROVED",
+    "issuedCertificates": []
   }
 ]

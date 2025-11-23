@@ -5,7 +5,7 @@ public class Admin extends User {
     public Admin(String userId, String username, String email, String passwordHash) {
         setUserID(userId);
         setUserName(username);
-        setRole("ADMIN");
+        setRole("Admin");
         setEmail(email);
         setPasswordHash(passwordHash);
     }

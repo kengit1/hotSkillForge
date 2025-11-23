@@ -63,6 +63,7 @@ public class login_panel extends JFrame{
             try {
                 Student S = null;
                 Instructor I = null;
+                Admin A = null;
                 String content = new String(Files.readAllBytes(file.toPath()));
                 if (content.trim().isEmpty()) {
                     JOptionPane.showMessageDialog(this, "No users found!", "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -100,6 +101,9 @@ public class login_panel extends JFrame{
                             List<String> CreatedCourses = getCoursesList(CreatedcoursesArray);
                             I = new Instructor(userID,"Instructor",username,userEmail,userPasswordHash,CreatedCourses);
                         }
+                        else if(userRole.equals("Admin")){
+                            A = new Admin(userID,username,userEmail,userPasswordHash);
+                        }
                         break;
                     }
                 }
@@ -109,6 +113,7 @@ public class login_panel extends JFrame{
                     passwordField1.setText("");
                     if(type.equals("Student")) openStudentDashboard(S);
                     else if(type.equals("Instructor")) openInstructorDashborad(I);
+                    else if(type.equals("Admin")) openAdminDashboard(A);
                     dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Invalid credentials or user type!", "Login Error", JOptionPane.ERROR_MESSAGE);
@@ -170,6 +175,12 @@ public class login_panel extends JFrame{
         SwingUtilities.invokeLater(() -> {
             InstructorDashboardFrame panel = new InstructorDashboardFrame(i,cs,us);
             panel.setVisible(true);
+        });
+    }
+    private void openAdminDashboard(Admin a){
+        SwingUtilities.invokeLater(() -> {
+            AdminDashboard ad = new AdminDashboard(a);
+            ad.setVisible(true);
         });
     }
 }

@@ -2,7 +2,10 @@
   {
     "createdCourses": [
       "C01",
-      "C02"
+      "C02",
+      "C-1763932380550",
+      "C-1763933953394",
+      "C-1763934054173"
     ],
     "userID": "U1000",
     "userName": "DrHamada",
@@ -77,12 +80,20 @@
     },
     "earnedCertificates": [
       "CERT-1763923366975",
-      "CERT-1763923380620"
+      "CERT-1763923380620",
+      "CERT-1763924091255"
     ],
     "userID": "U2003",
     "userName": "OmarHesham",
     "role": "Student",
     "email": "omar@test.com",
     "passwordHash": "bbfe576074197632267880b0429c54f248b3a444736a0343065f0d2ddd433f90"
+  },
+  {
+    "userID": "4958",
+    "userName": "ELbaba",
+    "role": "Admin",
+    "email": "Elbaba@test.com",
+    "passwordHash": "f0bae820890a2de69a6de8234e10133343723662a55b18c843b8cd0c86e98e0b"
   }
 ]
