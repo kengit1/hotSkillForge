@@ -1,16 +1,14 @@
 package com.skillforge.model;
+
 import com.skillforge.db.CoursesDatabaseManager;
 import com.skillforge.db.UserDatabaseManager;
-import com.skillforge.model.Course;
-import com.skillforge.model.Instructor;
-import com.skillforge.model.Lesson;
-import com.skillforge.model.User;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class CourseService {
+
     private final CoursesDatabaseManager courseDB;
     private final UserDatabaseManager userDB;
 
@@ -23,16 +21,10 @@ public class CourseService {
         String newCourseId = "C-" + System.currentTimeMillis();
 
         Course newCourse = new Course(newCourseId, title, description, instructorId);
+        newCourse.setApprovalStatus("pending");
 
         if (!courseDB.add(newCourse)) {
             return Optional.empty();
-        }
-
-        User user = userDB.findById(instructorId);
-        if (user instanceof Instructor instructor) {
-            instructor.addCreatedCourse(newCourseId);
-            userDB.update(instructor);
-            userDB.saveData();
         }
 
         courseDB.saveData();
@@ -79,29 +71,21 @@ public class CourseService {
         return success;
     }
 
-    public List<Course> getCoursesByInstructor(String instructorId) {
-        User user = userDB.findById(instructorId);
-        if (!(user instanceof Instructor instructor)) {
-            return List.of();
-        }
-
-        return instructor.getCreatedCourses().stream()
-                .map(courseDB::findById)
-                .filter(c -> c != null)
+    public List<Course> getPendingCourses() {
+        return courseDB.getAll().stream()
+                .filter(c -> "pending".equalsIgnoreCase(c.getApprovalStatus()))
                 .collect(Collectors.toList());
     }
 
-    public List<String> getViewEnrolledStudents(String courseId) {
+    public boolean approveCourse(String courseId) {
         Course course = courseDB.findById(courseId);
-        if (course == null) {
-            return List.of("Course not found.");
-        }
+        if (course == null) return false;
 
-        return course.getStudents().stream()
-                .map(userDB::findById)
-                .filter(u -> u != null)
-                .map(u -> u.getUserName() + " (" + u.getEmail() + ")")
-                .collect(Collectors.toList());
+        course.setApprovalStatus("approved");
+
+        boolean success = courseDB.update(course);
+        if (success) courseDB.saveData();
+        return success;
     }
     public boolean approveCourse(String courseID){
         Course course = courseDB.findById(courseID);
@@ -125,4 +109,14 @@ public class CourseService {
     }
 
 
-}//
+    public boolean rejectCourse(String courseId) {
+        Course course = courseDB.findById(courseId);
+        if (course == null) return false;
+
+        course.setApprovalStatus("rejected");
+
+        boolean success = courseDB.update(course);
+        if (success) courseDB.saveData();
+        return success;
+    }
+}
