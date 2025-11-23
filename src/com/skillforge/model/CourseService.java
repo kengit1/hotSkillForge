@@ -71,12 +71,6 @@ public class CourseService {
         return success;
     }
 
-    public List<Course> getPendingCourses() {
-        return courseDB.getAll().stream()
-                .filter(c -> "pending".equalsIgnoreCase(c.getApprovalStatus()))
-                .collect(Collectors.toList());
-    }
-
     public boolean approveCourse(String courseId) {
         Course course = courseDB.findById(courseId);
         if (course == null) return false;
@@ -87,33 +81,11 @@ public class CourseService {
         if (success) courseDB.saveData();
         return success;
     }
-    public boolean approveCourse(String courseID){
-        Course course = courseDB.findById(courseID);
-        if (course == null) return false;
-
-        course.setApprovalStatus("APPROVED");
-
-        boolean success = courseDB.update(course);
-        if (success) courseDB.saveData();
-        return success;
-    }
     public boolean rejectCourse(String courseID){
         Course course = courseDB.findById(courseID);
         if (course == null) return false;
 
         course.setApprovalStatus("REJECTED");
-
-        boolean success = courseDB.update(course);
-        if (success) courseDB.saveData();
-        return success;
-    }
-
-
-    public boolean rejectCourse(String courseId) {
-        Course course = courseDB.findById(courseId);
-        if (course == null) return false;
-
-        course.setApprovalStatus("rejected");
 
         boolean success = courseDB.update(course);
         if (success) courseDB.saveData();
