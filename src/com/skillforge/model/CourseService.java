@@ -21,7 +21,7 @@ public class CourseService {
         String newCourseId = "C-" + System.currentTimeMillis();
 
         Course newCourse = new Course(newCourseId, title, description, instructorId);
-        newCourse.setApprovalStatus("pending");
+        newCourse.setApprovalStatus("PENDING");
 
         if (!courseDB.add(newCourse)) {
             return Optional.empty();
@@ -75,7 +75,7 @@ public class CourseService {
         Course course = courseDB.findById(courseId);
         if (course == null) return false;
 
-        course.setApprovalStatus("approved");
+        course.setApprovalStatus("APPROVED");
 
         boolean success = courseDB.update(course);
         if (success) courseDB.saveData();
