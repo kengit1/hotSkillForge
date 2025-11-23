@@ -1,0 +1,23 @@
+[
+  {
+    "certificateId": "CERT-1763923366975",
+    "studentId": "U2003",
+    "courseId": "C02",
+    "issueDate": "2025-11-23",
+    "filePath": "certificates/CERT-1763923366975.json"
+  },
+  {
+    "certificateId": "CERT-1763923380620",
+    "studentId": "U2003",
+    "courseId": "C-1763752296126",
+    "issueDate": "2025-11-23",
+    "filePath": "certificates/CERT-1763923380620.json"
+  },
+  {
+    "certificateId": "CERT-1763924091255",
+    "studentId": "U2003",
+    "courseId": "C03",
+    "issueDate": "2025-11-23",
+    "filePath": "certificates/CERT-1763924091255.json"
+  }
+]
