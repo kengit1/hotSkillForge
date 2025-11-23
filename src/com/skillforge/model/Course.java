@@ -84,4 +84,4 @@ public class Course implements DatabaseEntity {
     public String toString() {
         return this.getID()+" "+this.getTitle()+" "+this.getDescription();
     }
-}
+}//

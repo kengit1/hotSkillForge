@@ -9,14 +9,12 @@ public class Admin extends User {
         setEmail(email);
         setPasswordHash(passwordHash);
     }
-
     @Override
     public String getID() {
         return getUserID();
     }
-
     @Override
     public String toString() {
         return getID() + " " + getUserName() + " " + getRole() + " " + getEmail();
     }
-}
+}//

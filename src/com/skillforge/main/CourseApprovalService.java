@@ -10,7 +10,7 @@ public class CourseApprovalService {
 
     public CourseApprovalService(CoursesDatabaseManager db) {
         this.courseDB = db;
-    }
+    }//
 
     public List<Course> getPendingCourses() {
         return courseDB.getPendingCourses();
